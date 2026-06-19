@@ -1,0 +1,14 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Morgann Music//FR
+BEGIN:VEVENT
+UID:music-release-2025@morgannmusic.uk
+DTSTAMP:20251220T000000Z
+DTSTART:20251225T000000
+DTEND:20251226T000000
+SUMMARY:Sortie de Éther 🎁🎄 !
+DESCRIPTION:Éther sera disponible sur toutes les plateformes le 25 décembre a minuit 🎁🎁🎁!
+URL:https://send.morgannmusic.uk/éther
+LOCATION:Streaming Plateformes
+END:VEVENT
+END:VCALENDAR

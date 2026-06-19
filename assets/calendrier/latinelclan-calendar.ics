@@ -1,0 +1,13 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Morgann Music//Latin El Clan//FR
+BEGIN:VEVENT
+UID:latin-el-clan-20260307@morgannmusic.uk
+DTSTAMP:20260301T120000Z
+DTSTART:20260307T000000
+DTEND:20260308T000000
+SUMMARY:Sortie de Latin El Clan 🔥🌴
+DESCRIPTION:Latin El Clan sort le 7 mars 2026 📅✨ sur toutes vos plateformes.
+LOCATION:Condrieu, France
+END:VEVENT
+END:VCALENDAR

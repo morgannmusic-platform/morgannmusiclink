@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion • Morgann Music Link</title>
+  <link rel="stylesheet" href="navbar.css">
+  <link rel="stylesheet" href="auth.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="navbar-container"></div>
+  <script src="navbar.js"></script>
+
+  <main class="auth-wrapper">
+    <div class="auth-header">
+      <h1>Connectez-vous à votre compte Morgann Music</h1>
+      <p>ou créez un compte Morgann Music.</p>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="connexion" type="button">Connectez-vous à votre compte Morgann Music</button>
+      <button class="auth-tab" data-tab="inscription" type="button">Créer un compte Morgann Music</button>
+    </div>
+
+    <section class="auth-panel active" data-panel="connexion">
+      <form class="auth-form" id="login-form">
+        <input id="login-email" type="email" placeholder="Email" required>
+        <input id="login-password" type="password" placeholder="Mot de passe" required>
+        <button type="submit">Se connecter</button>
+      </form>
+      <button id="login-google-btn" class="google-btn" type="button">Continuer avec Google</button>
+    </section>
+
+    <section class="auth-panel" data-panel="inscription">
+      <form class="auth-form" id="register-form">
+        <input id="register-prenom" type="text" placeholder="Prénom" required>
+        <input id="register-nom" type="text" placeholder="Nom" required>
+        <select id="register-pays" required>
+          <option value="">Choisir un pays</option>
+          <option>France</option>
+          <option>Belgique</option>
+          <option>Suisse</option>
+          <option>Canada</option>
+          <option>Luxembourg</option>
+          <option>Algérie</option>
+          <option>Maroc</option>
+          <option>Tunisie</option>
+          <option>Sénégal</option>
+          <option>Côte d’Ivoire</option>
+          <option>Cameroun</option>
+          <option>Allemagne</option>
+          <option>Espagne</option>
+          <option>Italie</option>
+          <option>Royaume-Uni</option>
+          <option>États-Unis</option>
+          <option>Brésil</option>
+          <option>Japon</option>
+          <option>Corée du Sud</option>
+          <option>Australie</option>
+        </select>
+        <input id="register-email" type="email" placeholder="Email" required>
+        <input id="register-password" type="password" placeholder="Mot de passe (6 caractères min.)" minlength="6" required>
+        <button type="submit">Créer mon compte</button>
+      </form>
+      <button id="register-google-btn" class="google-btn" type="button">S’inscrire avec Google</button>
+    </section>
+
+    <p id="auth-message"></p>
+  </main>
+
+  <script type="module" src="js/auth-page.js"></script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+:root {
+  --auth-bg-start: #ff20d6;
+  --auth-bg-end: #0800e9;
+  --auth-card: rgba(255, 255, 255, 0.18);
+  --auth-border: rgba(255, 255, 255, 0.35);
+  --auth-text: #ffffff;
+  --auth-muted: rgba(255, 255, 255, 0.8);
+  --auth-btn: rgba(255, 255, 255, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background-image: linear-gradient(var(--auth-bg-start) 0%, var(--auth-bg-end) 100%);
+  color: var(--auth-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 120px 16px 40px;
+}
+
+.auth-wrapper,
+.account-wrapper {
+  width: min(780px, 100%);
+  background: var(--auth-card);
+  border: 1px solid var(--auth-border);
+  border-radius: 24px;
+  padding: 24px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+.auth-header,
+.account-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.auth-tab {
+  border: 1px solid var(--auth-border);
+  background: transparent;
+  color: var(--auth-text);
+  border-radius: 999px;
+  padding: 10px 12px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 1.25;
+  font-size: 13px;
+  min-height: 52px;
+}
+
+.auth-tab.active {
+  background: var(--auth-btn);
+}
+
+.auth-panel {
+  display: none;
+}
+
+.auth-panel.active {
+  display: block;
+}
+
+.auth-form {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.auth-form input,
+.auth-form select,
+.auth-form button,
+.google-btn,
+#logout-btn {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--auth-border);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--auth-text);
+  padding: 11px 12px;
+  font-size: 15px;
+}
+
+.auth-form input::placeholder {
+  color: var(--auth-muted);
+}
+
+.auth-form select option {
+  color: #111;
+}
+
+.auth-form button,
+.google-btn,
+#logout-btn {
+  cursor: pointer;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.google-btn {
+  margin-top: 8px;
+}
+
+#auth-message {
+  min-height: 24px;
+  margin-top: 8px;
+  color: #d9ffd7;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+
+#auth-message.error {
+  color: #ffd6d6;
+}
+
+#account-box {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+/* ===== Refonte auth/account ===== */
+
+body {
+  padding-top: 110px;
+  padding-bottom: 56px;
+}
+
+.auth-wrapper,
+.account-wrapper {
+  width: min(860px, 100%);
+  border-radius: 30px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.2);
+}
+
+.auth-header h1,
+.account-header h1 {
+  font-size: clamp(1.35rem, 2.8vw, 1.9rem);
+  margin-bottom: 8px;
+}
+
+.auth-header p,
+.account-header p {
+  opacity: 0.9;
+}
+
+.auth-tabs {
+  gap: 10px;
+}
+
+.auth-tab {
+  font-weight: 600;
+  min-height: 48px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.auth-tab.active {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.auth-form input,
+.auth-form select,
+.auth-form button,
+.google-btn,
+#logout-btn {
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.auth-form button,
+.google-btn,
+#logout-btn {
+  font-weight: 700;
+}
+
+#auth-message {
+  border-radius: 14px;
+}
+
+@media (max-width: 640px) {
+  .auth-wrapper,
+  .account-wrapper {
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  .auth-tabs {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== Espace compte redesign ===== */
+
+.account-layout {
+  display: grid;
+  gap: 18px;
+}
+
+.account-hero {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 20px;
+  padding: 16px;
+}
+
+.account-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.14);
+  margin-bottom: 8px;
+}
+
+.account-hero h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.35rem, 2.7vw, 1.95rem);
+}
+
+.account-hero p {
+  margin: 0;
+  opacity: 0.92;
+}
+
+.account-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 0;
+}
+
+.account-card {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.account-card h2,
+.account-card h3 {
+  margin: 0 0 8px;
+}
+
+.account-card p {
+  margin: 0 0 7px;
+  line-height: 1.45;
+}
+
+.account-subtitle,
+.account-muted {
+  opacity: 0.86;
+}
+
+.uid-value {
+  font-size: 12px;
+  opacity: 0.9;
+  word-break: break-all;
+}
+
+.account-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.account-action-link,
+.account-actions #logout-btn {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--auth-text);
+  font-weight: 600;
+  padding: 12px 14px;
+}
+
+@media (max-width: 960px) {
+  .account-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .account-actions {
+    flex-direction: column;
+  }
+}

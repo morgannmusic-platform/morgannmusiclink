@@ -1,0 +1,11 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:Sortie de Glitter Night 🥞
+DESCRIPTION:Disponible sur toutes les plateformes de streaming et en téléchargement à partir du 02 Février.
+LOCATION:Condrieu, France
+DTSTART:20260202T000000
+DTEND:20260203T000000
+END:VEVENT
+END:VCALENDAR
+

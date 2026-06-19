@@ -1,0 +1,14 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Morgann Music//FR
+BEGIN:VEVENT
+UID:music-release-2025@morgannmusic.uk
+DTSTAMP:20251220T000000Z
+DTSTART:20260101T000000
+DTEND:20260102T000000
+SUMMARY:Sortie de LEVEL UP !
+DESCRIPTION:LEVEL UP sera disponible sur toutes les plateformes le 1er janvier a minuit!.
+URL:https://send.morgannmusic.uk/LEVEL-UP
+LOCATION:Streaming Plateformes
+END:VEVENT
+END:VCALENDAR

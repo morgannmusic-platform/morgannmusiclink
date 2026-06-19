@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <link rel="stylesheet" href="navbar.css">
+
+    <title>LEVEL UP • Morgann Music Link</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta property="og:image" content="/banlu.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http - equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <link rel="icon" href="favicon-32x32.png">
+    <meta property="og:description" content="Et sortout bonne écoute de LEVEL UP, l'album est diponible partout ! 🎉🔥">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuMGFYw5U/yKzI5ZqD5v/e10z1x6+3Rz4m0S9K0P8v6C5w==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <meta property="og:type" content="website">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icons.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16 .png">
+    <link rel="icon" type="image/ico" sizes="48x48" href="/favicon .ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192s.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512s.png">
+    <link rel="icon" href="apple-touch-iconc.png">
+    <link rel="icon" href="favicon-16x16s.png" type="image/png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" href="favicon-32x32s.png" type="image/png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" href="favicons.ico" type="image/ico" media="(prefers-color-scheme: dark)">
+    <link rel="icon" href="favicon-16x16c.png" type="image/png" media="(prefers-color-scheme: light)">
+    <link rel="icon" href="favicon-32x32c.png" type="image/png" media="(prefers-color-scheme: light)">
+    <link rel="icon" href="faviconc.ico" type="image/ico" media="(prefers-color-scheme: light)">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <meta name="theme-color" content=" #5ecf2d">
+
+    <link href="https://fonts.googleapis.com/css2?family=Gasoek+One&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+
+    <style>
+         :root {
+            --body-bg-start: #5ecf2d;
+            --body-bg-end: #61ac06;
+            --text-color-1: #c1ff72;
+            --text-color-105: #7ed957;
+            --text-color-108: #c1ff72;
+            --text-color-102: #7ed957;
+            --text-color-11: #c1ff72;
+            --text-color: #d0d5ff;
+            --text-color2: #ffffff;
+            --nbscr: rgba(255, 255, 255, 0.307);
+            --texte-color3: #992a99;
+            --texte-color-btn: rgb(235, 135, 208, 0.8);
+            --btn-info: rgba(20, 152, 44, 0.658);
+            --mms-txt: #ffffff;
+            --titre: #ffffff;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+             :root {
+                --body-bg-start: #24640b;
+                --body-bg-end: #2c4907;
+                --text-color-1: #9dd259;
+                --text-color-105: #65af45;
+                --text-color-108: #82ae4a;
+                --text-color-102: #67b645;
+                --text-color-11: #94c454;
+                --text-color2: #f7f6f7;
+                --nbscr: rgba(255, 255, 255, 0.2);
+                --texte-color3: #992a99;
+                --texte-color-btn: #643054;
+                --btn-info: rgba(14, 203, 61, 0.301);
+                --mms-txt: #ffffff;
+                --titre: #ffffff;
+            }
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 200vh;
+            background-image: linear-gradient(var(--body-bg-start) 0%, var(--body-bg-end) 100%);
+            color: var(--text-color-primary);
+            font-family: 'Poppins', sans-serif;
+            text-shadow: 1px;
+        }
+        
+        .simple-separator {
+            height: 0.5px;
+            background-color: #beb4465a;
+            margin: 50px auto;
+            width: 90%;
+            max-width: 1200px;
+            min-width: 200px;
+            border-radius: 2px;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0);
+            -webkit-backdrop-filter: blur(10px);
+            transition: 0.5s all;
+            z-index: 1000;
+            color: #ffffff;
+            cursor: pointer;
+        }
+        
+        .navbar:hover {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.567);
+        }
+        
+        .navbar.scrolled {
+            background: var(--nbscr);
+            backdrop-filter: blur(10px);
+            color: #444444;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.523);
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            text-decoration-color: #444444;
+        }
+        
+        .navbar.scrolled:hover {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.567);
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+        
+        .navbar nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 30px;
+        }
+        
+        .navbar .logo img {
+            height: 40px;
+            width: auto;
+            user-select: none;
+        }
+        
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+        
+        .navbar ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        
+        .navbar ul li a:hover {
+            opacity: 0.7;
+            text-shadow: 0 0 50px rgba(0, 0, 0, 0.577);
+        }
+        
+        .navbar .menu-toggle {
+            display: none;
+            font-size: 1.8em;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .navbar .menu-toggle {
+                display: block;
+                position: relative;
+                z-index: 9999;
+                color: var(--text-color3);
+            }
+            .navbar ul {
+                /* Menu mobile réduit sur le côté */
+                position: absolute;
+                top: 65px;
+                right: 0;
+                width: 200px;
+                flex-direction: column;
+                /* Largeur réduite pour le menu latéral */
+                background: rgba(8, 111, 22, 0.896);
+                color: #ffffff;
+                /* J'ai gardé votre couleur ajustée */
+                align-items: flex-start;
+                -webkit-backdrop-filter: blur(10px);
+                padding: 15px;
+                display: flex;
+                /* STRATÉGIE pour la visibilité et éviter le blocage des clics */
+                visibility: hidden;
+                /* Cache le menu */
+                pointer-events: none;
+                /* TRÈS IMPORTANT: Empêche le menu masqué de bloquer le clic sur le bouton */
+                border-radius: 0 0 0 25px;
+                /* J'ai gardé votre rayon de bordure ajusté */
+                transition: transform 0.3s ease-out, visibility 0.3s;
+                transform: translateX(100%);
+                /* Masque le menu à droite (hors de vue) */
+            }
+            .navbar ul.active {
+                visibility: visible;
+                /* Révèle le menu */
+                pointer-events: all;
+                /* Permet d'interagir avec le menu */
+                transform: translateX(0);
+                /* Révèle le menu */
+            }
+            .navbar ul li {
+                width: 100%;
+                margin: 10px 0;
+            }
+            .navbar ul li a:hover {
+                text-decoration: underline;
+            }
+        }
+        
+        .text-hover {
+            font-family: 'Gasoek One', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: #ffffff;
+            text-align: center;
+            cursor: pointer;
+            padding: 40px;
+            user-select: none;
+            letter-spacing: -0.02em;
+            margin-top: 70px;
+        }
+        
+        @media (max-width: 600px) {
+            .text-hover {
+                font-size: 1.5rem;
+                padding: 20px 10px;
+                letter-spacing: -0.05em;
+                text-shadow: 0 0 50px rgba(0, 0, 0, 0.577);
+            }
+        }
+        
+        .word {
+            display: inline-block;
+            margin: 0 4px;
+        }
+        
+        .letter {
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        
+        .letter:hover {
+            color: var(--text-color);
+        }
+        
+        .letter.animate {
+            animation: appleJump 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        @keyframes appleJump {
+            0% {
+                transform: translateY(0) scale(1);
+                color: var(--text-color-1);
+            }
+            30% {
+                transform: translateY(-8px) scale(1.05);
+                color: var(--text-color-105);
+            }
+            60% {
+                transform: translateY(-12px) scale(1.08);
+                color: var(--text-color-108);
+            }
+            80% {
+                transform: translateY(-4px) scale(1.02);
+                color: var(--text-color-102);
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                color: var(--text-color-11);
+            }
+        }
+        
+        .titre-page {
+            text-align: center;
+            font-family: 'helvetica', sans-serif;
+            font-size: 1em;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            color: var(--titre);
+            animation-delay: 0.3s;
+        }
+        
+        .titre-page.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        #image-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #image-container img {
+            display: block;
+            width: 200px;
+            height: auto;
+            object-fit: cover;
+            cursor: pointer;
+            max-width: 100%;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        #image-container img:hover {
+            transform: scale(1.3);
+        }
+        
+        @media (min-width: 768px) {
+            #image-container {
+                flex-direction: row;
+                gap: 30px;
+            }
+            #image-container img {
+                width: 250px;
+            }
+        }
+        
+        .btn {
+            background-color: #ffffff;
+            border: 2px solid #e780aa;
+            color: var(--text-color-btn);
+            border: none;
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px transparent;
+            min-width: 150px;
+            align-items: center;
+        }
+        
+        .btn:hover {
+            background-color: var(--text-color-btn);
+            box-shadow: 0 0 15px #ffffff;
+            border: 2px solid #ffffff;
+            transform: translateY(-2px);
+            color: #ffffff;
+            align-items: center;
+        }
+        
+        .row {
+            display: flex;
+            color: var(--text-color-btn);
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .bouton-icone {
+            width: 25px;
+            height: 25px;
+            display: block;
+        }
+        
+        .info-bouton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+            align-items: center;
+            background-color: var(--btn-info);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            transition: width 0.4s ease-out, border-radius 0.4s ease-out, background-color 0.3s;
+            transition: 0.5s all;
+        }
+        
+        .info-bouton:hover {
+            backdrop-filter: blur(10px);
+            background-color: var(--btn-info);
+            box-shadow: 0 15px 12px rgba(0, 0, 0, 0.508);
+            transform: scale(1.1);
+        }
+        
+        .info-bouton-wrapper {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+        }
+        
+        .bouton-icone {
+            width: 25px;
+            height: 25px;
+            flex-shrink: 0;
+            transition: margin-right 0.4s ease-out;
+        }
+        
+        .info-texte {
+            color: white;
+            font-family: sans-serif;
+            font-size: 14px;
+            white-space: nowrap;
+            margin-left: 0;
+            opacity: 0;
+            max-width: 0;
+            transition: opacity 0.3s ease-out, max-width 0.3s ease-out, margin-left 0.4s ease-out;
+        }
+        
+        .info-bouton.ouvert {
+            width: 250px;
+            border-radius: 25px;
+            justify-content: flex-start;
+            padding-left: 15px;
+        }
+        
+        .info-bouton.ouvert .bouton-icone {
+            margin-right: 10px;
+        }
+        
+        .info-bouton.ouvert .info-texte {
+            opacity: 1;
+            max-width: 200px;
+            margin-left: 0;
+            padding-right: 15px;
+        }
+        
+        .mms {
+            font-size: 2.2em;
+            margin-top: 10px;
+            text-align: center;
+            font-family: 'helvetica', sans-serif;
+            color: var(--mms-txt);
+        }
+        
+        .pied-de-page {
+            font-size: 0.8em;
+            margin-top: 10px;
+            text-align: center;
+            font-family: 'helvetica', sans-serif;
+            color: var(--mms-txt);
+            margin-bottom: 50px;
+        }
+        
+        .hero-text2 {
+            font-size: 5vw;
+            font-weight: 600;
+            font-family: 'helvetica', cursive;
+            color: #ffffff;
+            text-align: center;
+            line-height: 1.1;
+            cursor: pointer;
+            padding: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .hero-text2:hover {
+            transform: scale(1.01);
+        }
+        
+        .highlight {
+            font-family: 'helvetica', cursive;
+            font-size: 5.5vw;
+            font-weight: 400;
+            background-image: linear-gradient( 90deg, #f6df0e, #ff7ae7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            transition: filter 0.5s ease, transform 0.10s ease;
+        }
+        
+        .word {
+            display: inline-block;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+        
+        .word:hover {
+            color: var(--titre);
+            transform: translateY(-5px);
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .highlight:hover {
+            filter: brightness(1.2);
+            transform: translateY(-20px);
+        }
+        
+        h4 {
+            font-size: 1.5em;
+            margin-bottom: 25px;
+        }
+        
+        .titre-level-up {
+            font-size: 6em;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-family: "Anton", sans-serif;
+            text-align: center;
+            background-image: linear-gradient( 180deg, #c1ff72, #7ed957 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+        
+        .titre-level-up:hover {
+            transform: scale(1.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .liste-album li {
+            font-family: 'helvetica', sans-serif;
+            font-size: 1.5em;
+            color: var(--text-color2);
+            text-align: center;
+            margin-left: 120px;
+            list-style: disc;
+            margin: 10px 0;
+            opacity: 0;
+            transform: scale(0);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease-out;
+        }
+        
+        .liste-album.visible li {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .paragraphe {
+            font-family: 'helvetica', sans-serif;
+            font-size: 1.2em;
+            color: var(--text-color2);
+            text-align: center;
+            margin: 0 100px;
+        }
+        
+        @keyframes zoomIn {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            /* espace entre les boutons */
+            margin-bottom: 30px;
+            /* espace avec le bouton voir plus */
+        }
+        
+        .btn {
+            background-color: #ffffff;
+            border: 2px solid var(--texte-color-btn);
+            color: var(--body-bg-end);
+            border: none;
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.8s;
+            box-shadow: 0 0 10px transparent;
+            min-width: 150px;
+            align-items: center;
+            margin-top: 80px;
+        }
+        
+        .btn:hover {
+            background-color: var(--text-color-btn);
+            box-shadow: 0 0 15px #ffffff;
+            border: 2px solid #ffffff;
+            transform: translateY(-2px);
+            color: #ffffff;
+            align-items: center;
+        }
+    </style>
+    <link rel="stylesheet" href="css/release-latin-style.css">
+</head>
+
+<body>
+
+
+
+
+
+     <div id="navbar-container"></div>
+    <script src="navbar.js"></script> 
+
+
+
+
+
+
+    <div class="text-hover">
+        <span class="word">
+      <span class="letter">J</span><span class="letter">e</span>
+        </span>
+        <span class="word">
+      <span class="letter">f</span><span class="letter">a</span><span class="letter">i</span><span class="letter">s</span>
+        </span>
+        <span class="word">
+      <span class="letter">d</span><span class="letter">e</span>
+        </span>
+        <span class="word">
+      <span class="letter">l</span><span class="letter">a</span>
+        </span>
+        <span class="word">
+      <span class="letter">m</span><span class="letter">u</span><span class="letter">s</span><span class="letter">i</span><span class="letter">q</span><span class="letter">u</span><span class="letter">e</span><span class="letter">,</span>
+        </span>
+        <span class="word">
+      <span class="letter">e</span><span class="letter">t</span>
+        </span>
+        <span class="word">
+      <span class="letter">j</span><span class="letter">e</span>
+        </span>
+        <span class="word">
+      <span class="letter">l</span><span class="letter">a</span>
+        </span>
+        <span class="word">
+      <span class="letter">p</span><span class="letter">o</span><span class="letter">s</span><span class="letter">t</span><span class="letter">e</span>
+        </span>
+    </div>
+
+    <div class="simple-separator"></div>
+    <div class="titre-level-up">
+        <h4>LEVEL UP</h4>
+    </div>
+
+
+
+    <div class="titre-page">
+        <h1>Sortie le 1er Janvier (Bonne Année 🎆🎊)</h1>
+    </div>
+
+
+
+    <div class="simple-separator"></div>
+
+    <div class="paragraphe">
+        <p>Un album pour commencer l'année ! LEVEL UP est un album qui reflète la montée en puissance, la détermination à atteindre de nouveaux sommets. Chaque piste est conçue pour inspirer, motiver et encourager l'auditeur à embrasser le changement positif.
+        </p>
+    </div>
+
+    <div class="simple-separator"></div>
+
+
+    <ul class="liste-album">
+        <li>LEVEL UP</li>
+        <li>Funky</li>
+        <li>Émotion</li>
+        <li>Lueur</li>
+        <li>New</li>
+        <li>Earley Days</li>
+        <li>Always Tomorrow</li>
+        <li>Ancient Shrine</li>
+    </ul>
+
+
+
+
+    <div class="simple-separator"></div>
+
+    <div class="titre-page">
+        <h1>Lien vers LEVEL UP !</h1>
+
+    </div>
+
+    <div id="image-container">
+        <!-- Image Apple avec lien -->
+        <a href="https://music.apple.com/fr/album/level-up/1864513852" target="_blank">
+            <img src="apple.webp" alt="Lien vers Apple">
+        </a>
+
+        <!-- Image Spotify avec lien -->
+        <a href="https://open.spotify.com/intl-fr/album/3dA6s0uBW1KfC1OAbCg1SP" target="_blank">
+            <img src="spotify.webp" alt="Lien vers Spotify">
+        </a>
+
+        <!-- Image Deezer avec lien -->
+        <a href="https://www.deezer.com/fr/album/885538802" target="_blank">
+            <img src="deezer.webp" alt="Lien vers Deezer">
+        </a>
+
+        <!-- Image YouTube avec lien -->
+        <a href="https://music.youtube.com/playlist?list=OLAK5uy_lVc4Z7dQGWPCYIHYY7gfqC8kLW2LTTwz0" target="_blank">
+            <img src="yt.webp" alt="Lien vers YouTube">
+        </a>
+    </div>
+
+    <div class="simple-separator"></div>
+
+    <div class="pied-de-page">
+
+        <p>Morgann Music © 2025 Tout droits réserver.</p>
+    </div>
+
+    <div class="info-bouton-wrapper">
+        <button class="info-bouton">
+    <img src="logo.webp" alt="Icône d'information" class="bouton-icone">
+    <span class="info-texte">Version :  2.0.8</span>
+  </button>
+    </div>
+
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            gsap.registerPlugin(ScrollTrigger, SplitText);
+
+            gsap.from("#image-container a", {
+                opacity: 1,
+                y: 100,
+                duration: 3,
+                stagger: 0.15,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: "#image-container",
+                    start: "top 80%",
+                    end: "bottom center",
+                    scrub: 1,
+                },
+            });
+
+            gsap.from(".text-hover", {
+                y: -50,
+                opacity: 0,
+                duration: 1.5,
+                delay: 0.5,
+                ease: "power3.out",
+            });
+
+            gsap.from(".titre-level-up", {
+                y: -60,
+                opacity: 0,
+                duration: 1.5,
+                delay: 0.9,
+                ease: "power3.out",
+            });
+
+            const heroTextSplit = new SplitText("#morgann-text", {
+                type: "words"
+            });
+
+            gsap.from(heroTextSplit.words, {
+                y: 50,
+                opacity: 0,
+                rotationX: -90,
+                stagger: 0.1,
+                duration: 1,
+                ease: "back.out(1.7)",
+                scrollTrigger: {
+                    trigger: "#morgann-text",
+                    start: "top 80%",
+                    toggleActions: "play none none reverse",
+                },
+            });
+
+            gsap.utils.toArray(".simple-separator").forEach(separator => {
+                gsap.from(separator, {
+                    scaleX: 0,
+                    transformOrigin: "center right",
+                    duration: 1.5,
+                    ease: "power4.out",
+                    scrollTrigger: {
+                        trigger: separator,
+                        start: "top 95%",
+                        end: "bottom 50%",
+                        scrub: 0.5,
+                        toggleActions: "play none none reverse",
+                    }
+                });
+            });
+        });
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+
+        document.querySelectorAll('.letter').forEach(letter => {
+            letter.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('animate')) {
+                    this.classList.add('animate');
+                    setTimeout(() => {
+                        this.classList.remove('animate');
+                    }, 600);
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // On enregistre le plugin
+
+
+
+        // 1. Utilisation de querySelector pour cibler les classes CSS
+        const animationZone = document.querySelector('.hero-text');
+        const animatedText = document.querySelector('.morgann-music');
+
+        // Vérifie si les éléments existent avant de continuer
+        if (animationZone && animatedText) {
+
+            // Récupération des couleurs CSS une seule fois
+            const colorStart = getComputedStyle(document.documentElement).getPropertyValue('--light-color-start').trim();
+            const colorEnd = getComputedStyle(document.documentElement).getPropertyValue('--light-color-end').trim();
+
+            // Événement au mouvement de la souris
+            animationZone.addEventListener('mousemove', (e) => {
+                const rect = animationZone.getBoundingClientRect();
+
+                // Calcule la position X relative dans le conteneur
+                const x = e.clientX - rect.left;
+                const percentage = (x / rect.width) * 100;
+
+                // Met à jour le dégradé (avec la "fenêtre" de lumière de 40%)
+                animatedText.style.background = `linear-gradient(90deg, ${colorStart} ${percentage - 20}%, ${colorEnd} ${percentage + 20}%)`;
+
+                // Sécurité : Maintenir le clip textuel (même si le CSS devrait le faire)
+                animatedText.style.webkitBackgroundClip = 'text';
+                animatedText.style.webkitTextFillColor = 'transparent';
+            });
+
+            // Événement lorsque la souris quitte la zone (CORRECTION DU BUG)
+            animationZone.addEventListener('mouseleave', () => {
+                // 1. Réinitialiser la couleur/dégradé à la valeur statique (0% et 100%)
+                animatedText.style.background = `linear-gradient(90deg, ${colorStart} 0%, ${colorEnd} 100%)`;
+
+                // 2. Réaffirmer les propriétés de clip textuel
+                animatedText.style.webkitBackgroundClip = 'text';
+                animatedText.style.webkitTextFillColor = 'transparent';
+
+                // 3. (Facultatif) Annuler la transformation de mise à l'échelle si elle était appliquée via JS
+                // Note: Vous gérez déjà le scale via :hover en CSS, donc cette ligne est facultative/inutile
+                // si vous vous en tenez à la solution CSS.
+                // animatedText.style.transform = 'scale(1)'; 
+            });
+
+        } else {
+            console.error("Erreur: Les éléments .hero-text ou .morgann-music n'ont pas été trouvés dans le DOM.");
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const elementsToAnimate = document.querySelectorAll('.titre-page');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    } else {
+                        entry.target.classList.remove('visible');
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+            elementsToAnimate.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const infoBouton = document.querySelector('.info-bouton');
+
+            infoBouton.addEventListener('click', function() {
+                infoBouton.classList.toggle('ouvert');
+            });
+        });
+        gsap.utils.toArray(".simple-separator").forEach(separator => {
+        gsap.from(separator, {
+            scaleX: 0,
+            transformOrigin: "center right",
+            duration: 1.5,
+            ease: "power4.out",
+            scrollTrigger: {
+                trigger: separator,
+                start: "top 95%",
+                end: "bottom 50%",
+                scrub: 0.5,
+                toggleActions: "play none none reverse",
+            }
+        });
+        });
+        });
+    </script>
+
+    <script>
+        const liste = document.querySelector('.liste-album');
+        const items = document.querySelectorAll('.liste-album li');
+
+        items.forEach((item, index) => {
+            item.style.transitionDelay = `${(index + 1) * 0.15}s`;
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    liste.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        observer.observe(liste);
+    </script>
+
+    <script src="https://apple.com/ac/libs/lottie/5.6.3/lottie.min.js" type="text/javascript"></script>
+    <script src="https://apple.com/v/maps/d/built/scripts/main.built.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+    document.querySelectorAll('.letter').forEach(letter => {
+        letter.addEventListener('mouseenter', function() {
+            if (!this.classList.contains('animate')) {
+                this.classList.add('animate');
+                setTimeout(() => {
+                    this.classList.remove('animate');
+                }, 600);
+            }
+        });
+    });
+</script>
+
+</body>
+
+</html>
