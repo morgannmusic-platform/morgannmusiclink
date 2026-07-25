@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http - equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <link rel="stylesheet" href="/assets/css/navbar.css">
+    <link rel="stylesheet" href="/assets/css/sorties.css">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuMGFYw5U/yKzI5ZqD5v/e10z1x6+3Rz4m0S9K0P8v6C5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuMGFYw5U/yKzI5ZqD5v/e10z1x6+3Rz4m0S9K0P8v6C5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>GARÇON • Morgann Music Link</title>
+    <meta property="og:image"
+        content="https://toolost.s3.us-east-2.amazonaws.com/convertedArtwork/99db4e8c6e88473e9be05fa2029c6e75.jpg">
+    <meta property="og:description"
+        content="GARÇON est sur vos plateformes depuis le 24 juillet ! Streamez dès maintenant.">
+    <meta property="og:type" content="website">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icons.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-chrome-192x192s.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/android-chrome-512x512s.png">
+    <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+
+    <link rel="icon" type="image/x-icon" href="/assets/icons/faviconc.ico" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16c.png"
+        media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32c.png"
+        media="(prefers-color-scheme: light)">
+
+    <link rel="icon" type="image/x-icon" href="/assets/icons/favicons.ico" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16s.png"
+        media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32s.png"
+        media="(prefers-color-scheme: dark)">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Gasoek+One&family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+
+
+    <meta name="theme-color" content="#ff81cb">
+
+    <style>
+        .navbar {
+            background: #ff81cb;
+        }
+
+        .navbar.scrolled,
+        .navbar:hover,
+        .navbar.scrolled:hover {
+            background: linear-gradient(180deg, #ff81cb 0%, rgba(0, 12, 142, 0) 100%);
+        }
+
+        :root {
+            --body-bg-start: #f851b2;
+            --body-bg-end: #ff80b0;
+            --text-color2: #ffffff;
+            --grostitre: linear-gradient(180deg, #fffeff, #ffabce 100%);
+            --mms-txt: #ffffff;
+            --titre: #ffffff;
+            --bsn: #ffffff40;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --body-bg-start: #710059;
+                --body-bg-end: #6c2b69;
+                --text-color2: #f7f6f7;
+                --mms-txt: #ffffff;
+                --titre: #ffffff;
+                --bsn: #fefefe55;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="navbar-container"></div>
+    <script src="/assets/js/navbar.js"></script>
+
+
+
+
+
+
+    <div class="text-hover">
+        <span class="word">
+            <span class="letter">D</span><span class="letter">e</span><span class="letter">s</span>
+        </span>
+        <span class="word">
+            <span class="letter">v</span><span class="letter">i</span><span class="letter">b</span><span
+                class="letter">e</span><span class="letter">s</span>
+        </span>
+        <span class="word">
+            <span class="letter">à</span>
+        </span>
+        <span class="word">
+            <span class="letter">l</span><span class="letter">'</span><span class="letter">é</span><span
+                class="letter">t</span><span class="letter">a</span><span class="letter">t</span>
+        </span>
+        <span class="word">
+            <span class="letter">b</span><span class="letter">r</span><span class="letter">u</span><span
+                class="letter">t</span><span class="letter">.</span>
+        </span>
+
+    </div>
+
+    <div id="morgann-text" class="hero-text2">
+        <span class="word">Morgann</span>
+        <span class="word">Music</span>
+        <span class="word">Link</span>
+
+    </div>
+
+
+
+    <div class="simple-separator"></div>
+    <div class="titre-level-up">
+        <h4 style="font-family: 'Montserrat', sans-serif;">GARÇON</h4>
+    </div>
+
+
+
+    <div class="titre-page">
+        <h1>GARÇON est sorti ! 🎉</h1>
+    </div>
+
+
+
+    <div class="simple-separator"></div>
+
+    <div class="paragraphe">
+        <p>GARÇON de Brooklyn & Morgann Music est sortie le 24 juillet, écoutez le dès maintenant !
+        </p>
+    </div>
+
+    <div class="simple-separator"></div>
+
+    <div class="titre-page">
+        <h1>Lien vers GARÇON 🔗</h1>
+
+    </div>
+
+    <div id="image-container">
+        <a href="https://music.apple.com/fr/album/gar%C3%A7on-single/6792185786" target="_blank">
+            <img src="/assets/img/apple.webp" alt="Lien vers Apple">
+        </a>
+
+        <a href="https://open.spotify.com/intl-fr/album/2ZkdhGn1grD4H71oM2Bk4p?1100ljU3P=&si=1&nd=1&dlsi=4fcc9fbe561b4ac8"
+            target="_blank">
+            <img src="/assets/img/spotify.webp" alt="Lien vers Spotify">
+        </a>
+
+        <a href="https://www.deezer.com/fr/" target="_blank">
+            <img src="/assets/img/deezer.webp" alt="Lien vers Deezer">
+        </a>
+
+        <a href="https://music.youtube.com/playlist?list=OLAK5uy_k5pvqmOVqi0wr1fitZ0PsDJfFyAOUo99o" target="_blank">
+            <img src="/assets/img/yt.webp" alt="Lien vers YouTube">
+        </a>
+    </div>
+
+    <div class="simple-separator"></div>
+
+    <div class="titre-page">
+        <h1>Écoutez la radio Morgann Music !</h1>
+    </div>
+
+
+    <div class="row">
+        <a href="https://music.apple.com/fr/station/morgann-music/ra.a-1820890727?itscg=30200&itsct=music_box_badge&ls=1&app=music&mttnsubad=ra.a-1820890727&ct=Morgann+Music"
+            style="display: inline-block;">
+            <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/listen-on-apple-music/badge/en-us"
+                alt="Écouter sur Apple Music"
+                style="width: 281px; height: 82px; vertical-align: middle; object-fit: contain;" />
+        </a>
+    </div>
+    <div class="simple-separator"></div>
+
+    <div class="pied-de-page">
+
+        <p>Morgann Music © 2025 Tout droits réserver.</p>
+    </div>
+
+
+
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            gsap.registerPlugin(ScrollTrigger, SplitText);
+
+            gsap.from("#image-container a", {
+                opacity: 1,
+                y: 100,
+                duration: 3,
+                stagger: 0.15,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: "#image-container",
+                    start: "top 80%",
+                    end: "bottom center",
+                    scrub: 1,
+                },
+            });
+
+            gsap.from(".text-hover", {
+                y: -50,
+                opacity: 0,
+                duration: 1.5,
+                delay: 0.5,
+                ease: "power3.out",
+            });
+
+            gsap.from(".titre-level-up", {
+                y: -60,
+                opacity: 0,
+                duration: 1.5,
+                delay: 0.9,
+                ease: "power3.out",
+            });
+
+            const heroTextSplit = new SplitText("#morgann-text", {
+                type: "words"
+            });
+
+            gsap.from(heroTextSplit.words, {
+                y: 50,
+                opacity: 0,
+                rotationX: -90,
+                stagger: 0.1,
+                duration: 1,
+                ease: "back.out(1.7)",
+                scrollTrigger: {
+                    trigger: "#morgann-text",
+                    start: "top 80%",
+                    toggleActions: "play none none reverse",
+                },
+            });
+
+            gsap.utils.toArray(".simple-separator").forEach(separator => {
+                gsap.from(separator, {
+                    scaleX: 0,
+                    transformOrigin: "center right",
+                    duration: 1.5,
+                    ease: "power4.out",
+                    scrollTrigger: {
+                        trigger: separator,
+                        start: "top 95%",
+                        end: "bottom 50%",
+                        scrub: 0.5,
+                        toggleActions: "play none none reverse",
+                    }
+                });
+            });
+        });
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+
+        document.querySelectorAll('.letter').forEach(letter => {
+            letter.addEventListener('mouseenter', function () {
+                if (!this.classList.contains('animate')) {
+                    this.classList.add('animate');
+                    setTimeout(() => {
+                        this.classList.remove('animate');
+                    }, 600);
+                }
+            });
+        });
+    </script>
+
+    <script>
+
+
+
+        const animationZone = document.querySelector('.hero-text');
+        const animatedText = document.querySelector('.morgann-music');
+
+        if (animationZone && animatedText) {
+
+            const colorStart = getComputedStyle(document.documentElement).getPropertyValue('--light-color-start').trim();
+            const colorEnd = getComputedStyle(document.documentElement).getPropertyValue('--light-color-end').trim();
+
+            animationZone.addEventListener('mousemove', (e) => {
+                const rect = animationZone.getBoundingClientRect();
+
+                const x = e.clientX - rect.left;
+                const percentage = (x / rect.width) * 100;
+
+                animatedText.style.background = `linear-gradient(90deg, ${colorStart} ${percentage - 20}%, ${colorEnd} ${percentage + 20}%)`;
+
+                animatedText.style.webkitBackgroundClip = 'text';
+                animatedText.style.webkitTextFillColor = 'transparent';
+            });
+
+            animationZone.addEventListener('mouseleave', () => {
+                animatedText.style.background = `linear-gradient(90deg, ${colorStart} 0%, ${colorEnd} 100%)`;
+
+                animatedText.style.webkitBackgroundClip = 'text';
+                animatedText.style.webkitTextFillColor = 'transparent';
+
+            });
+
+        } else {
+            console.error("Erreur: Les éléments .hero-text ou .morgann-music n'ont pas été trouvés dans le DOM.");
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const elementsToAnimate = document.querySelectorAll('.titre-page');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    } else {
+                        entry.target.classList.remove('visible');
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+            elementsToAnimate.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const infoBouton = document.querySelector('.info-bouton');
+
+            if (infoBouton) {
+                infoBouton.addEventListener('click', function () {
+                    infoBouton.classList.toggle('ouvert');
+                });
+            }
+
+            if (typeof gsap !== 'undefined') {
+                gsap.utils.toArray(".simple-separator").forEach(separator => {
+                    gsap.from(separator, {
+                        scaleX: 0,
+                        transformOrigin: "center right",
+                        duration: 1.5,
+                        ease: "power4.out",
+                        scrollTrigger: {
+                            trigger: separator,
+                            start: "top 95%",
+                            end: "bottom 50%",
+                            scrub: 0.5,
+                            toggleActions: "play none none reverse",
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+
+    <script>
+        const liste = document.querySelector('.liste-album');
+        const items = document.querySelectorAll('.liste-album li');
+
+        items.forEach((item, index) => {
+            item.style.transitionDelay = `${(index + 1) * 0.15}s`;
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    liste.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        observer.observe(liste);
+    </script>
+
+    <script src="https://apple.com/ac/libs/lottie/5.6.3/lottie.min.js" type="text/javascript"></script>
+    <script src="https://apple.com/v/maps/d/built/scripts/main.built.js" type="text/javascript"
+        charset="utf-8"></script>
+
+    <script>
+        document.querySelectorAll('.letter').forEach(letter => {
+            letter.addEventListener('mouseenter', function () {
+                if (!this.classList.contains('animate')) {
+                    this.classList.add('animate');
+                    setTimeout(() => {
+                        this.classList.remove('animate');
+                    }, 600);
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
