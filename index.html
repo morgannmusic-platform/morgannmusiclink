@@ -2,161 +2,70 @@
 <html lang="fr">
 
 <head>
-    <title>Morgann Music Link</title>
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta property="og:image" content="/ac.png">
-    <meta property="og:description"
-        content="Tous les liens réunis. Découvrez Morgann Music de toutes les façons possibles.">
+    <title>Morgann Music Link</title>
+
+    <!-- Meta de base -->
     <meta name="theme-color" content="#000c8e">
-    <link rel="apple-touch-icon" href="/icon link.png">
-    <link rel="icon" type="image/png" href="icon link.png">
-    <link rel="icon" type="image/png" href="icon link.png">
-    <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+    <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+    <!-- CSS de base et CSS de la navbar -->
+    <link rel="stylesheet" href="/assets/css/index.css">
+    <link rel="stylesheet" href="/assets/css/navbar.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <link rel="icon" type="image/x-icon" href="/assets/icons/faviconc.ico" media="(prefers-color-scheme: light)">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16c.png"
-        media="(prefers-color-scheme: light)">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32c.png"
-        media="(prefers-color-scheme: light)">
-
-    <link rel="icon" type="image/x-icon" href="/assets/icons/favicons.ico" media="(prefers-color-scheme: dark)">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16s.png"
-        media="(prefers-color-scheme: dark)">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32s.png"
-        media="(prefers-color-scheme: dark)">
-    <link rel="stylesheet" href="assets/css/navbar.css">
-    <link rel="stylesheet" href="assets/css/index.css">
-    <link rel="stylesheet" href="css/release-latin-style.css">
 </head>
 
-
 <body>
+    <!-- Conteneur pour injecter la navbar automatiquement -->
     <div id="navbar-container"></div>
+
+    <!-- En-tête : Présentation de Morgann Music Link -->
+    <header class="mml-header">
+        <h1 class="mml-title">Morgann Music Link</h1>
+        <p class="mml-subtitle">Ton accès direct à l'univers.</p>
+    </header>
+
+    <main class="mml-main-content">
+        <!-- Rangée 1 : Les 5 artistes avec le plus de sorties -->
+        <section class="mml-section" id="top-artistes-section">
+            <h2 class="section-heading">Top Artistes</h2>
+
+            <!-- Le JS viendra injecter les 5 artistes ici -->
+            <div class="mml-grid" id="artistes-container">
+                <!-- Vide en dur : remplissage via l'API -->
+            </div>
+        </section>
+
+        <!-- Séparateur visuel si besoin dans le CSS -->
+        <div class="simple-separator"></div>
+
+        <!-- Rangée 2 : Les 5 dernières sorties -->
+        <section class="mml-section" id="dernieres-sorties-section">
+            <h2 class="section-heading">Dernières Sorties</h2>
+
+            <!-- Le JS viendra injecter les 5 pochettes et titres ici -->
+            <div class="mml-grid" id="sorties-container">
+                <!-- Vide en dur : remplissage via l'API -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Pied de page refait -->
+    <footer class="mml-footer">
+        <p>Morgann Music © <span id="current-year"></span> Tous droits réservés.</p>
+    </footer>
+
+    <!-- Script automatique pour l'année du footer -->
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- Scripts JS : Navbar et index -->
     <script src="/assets/js/navbar.js"></script>
-
-
-    <div class="hero-text2">
-        <span class="word">Morgann</span>
-        <span class="word">Music</span>
-        <span class="word">Link,</span>
-        <p class="desc">Ton accès direct à l'univers.</p>
-
-    </div>
-
-    <div class="simple-separator"></div>
-
-    <div class="titre-page">
-        <div class="pastille-content">
-            <div class="pastille">
-                <h1>Morgann Music</h1>
-            </div>
-        </div>
-
-        <h1>Plateformes 🎵🔗</h1>
-
-    </div>
-
-    <div id="image-container">
-        <a href="https://music.apple.com/fr/artist/morgann-music/1820890727" target="_blank">
-            <img src="/assets/img/apple.webp" alt="Lien vers Apple">
-        </a>
-        <a href="https://open.spotify.com/intl-fr/artist/0WJlJdaavSKPNoCSSHb8OC?si=iWMUCcMzTGiiWx-EI9pkpw"
-            target="_blank">
-            <img src="/assets/img/spotify.webp" alt="Lien vers Spotify">
-        </a>
-        <a href="https://www.deezer.com/fr/artist/330395931" target="_blank">
-            <img src="/assets/img/deezer.webp" alt="Lien vers Deezer">
-        </a>
-        <a href="https://music.youtube.com/channel/UCsnyx7G0XZhbhFAND2HXLpg" target="_blank">
-            <img src="/assets/img/yt.webp" alt="Lien vers YouTube">
-        </a>
-    </div>
-
-    <div class="simple-separator"></div>
-
-    <div class="titre-page">
-        <div class="pastille-content">
-            <div class="pastille">
-                <h1>Morgann Music</h1>
-            </div>
-        </div>
-
-        <h1>Réseaux 📱🔗</h1>
-
-    </div>
-
-
-    <div id="image-container">
-        <a href="https://www.facebook.com/morgann.music/" target="_blank">
-            <img src="/assets/img/5.webp" alt="Lien vers FaceBook">
-        </a>
-
-        <a href="https://www.instagram.com/morgann.music02/" target="_blank">
-            <img src="/assets/img/6.webp" alt="Lien vers Instagrame">
-        </a>
-
-        <a href="https://www.tiktok.com/@morgannmusic" target="_blank">
-            <img src="/assets/img/7.webp" alt="Lien vers TikTok">
-        </a>
-
-        <a href="https://www.youtube.com/@Morgann.Music_m" target="_blank">
-            <img src="/assets/img/8.webp" alt="Lien vers YouTube">
-        </a>
-    </div>
-
-    <div class="simple-separator"></div>
-
-
-    <div class="titre-page">
-        <h1>Services & Projets 🔗</h1>
-
-    </div>
-
-    <div id="image-container-2">
-
-        <a href="https://mm-cp.uk" target="_blank">
-            <img src="https://mm-cp.uk/assets/img/logo/logo-rose.svg" alt="Lien vers Morgann Music CP">
-        </a>
-
-        <a href="https://litual.ai.mm-cp.uk/" target="_blank">
-            <img src="https://litual.ai.mm-cp.uk/o!%C2%A7ititititt.png" alt="Lien vers Litual AI">
-        </a>
-
-        <a href="https://morgannmusic.uk" target="_blank">
-            <img src="https://morgannmusic.uk/assets/img/Logos/blanc%20png.svg" alt="Lien vers Morgann Music Platforms"
-                style="filter: invert(1)">
-        </a>
-
-
-        <a href="https://rhone-valley-racers.uk" target="_blank">
-            <img src="https://rhone-valley-racers.uk/logo.svg" alt="Lien vers Rhône Valley Racers">
-        </a>
-    </div>
-
-    <div class="simple-separator"></div>
-
-
-
-
-
-    <div class="pied-de-page">
-        <p>Morgann Music © 2025 Tout droits réserver.</p>
-    </div>
-
-
-
-    <div class="row">
-        <a href="https://github.com/Momo-music02/morgannmusicsend">
-            <button class="btn">Github</button>
-
-        </a>
-    </div>
-    <script src="index.js"></script>
-    <script src="gsap.js"></script>
+    <script src="/assets/js/index.js"></script>
 </body>
 
 </html>

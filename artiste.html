@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artiste - Morgann Music CP</title>
+
+    <!-- Balises Open Graph / Réseaux sociaux (mises à jour dynamiquement) -->
+    <meta property="OG:TITLE" id="metaOgTitle" content="Artiste - Morgann Music CP">
+    <meta property="OG:DESCRIPTION" id="metaOgDesc"
+        content="Découvrez le profil, les liens et les dernières sorties de l'artiste sur Morgann Music CP.">
+    <meta property="OG:IMAGE" id="metaOgImage" content="https://mm-cp.uk/assets/img/icons/sombre.png">
+    <meta property="OG:TYPE" content="website">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="metaTwitterTitle" content="Artiste - Morgann Music CP">
+    <meta name="twitter:description" id="metaTwitterDesc"
+        content="Découvrez le profil, les liens et les dernières sorties de l'artiste sur Morgann Music CP.">
+    <meta name="twitter:image" id="metaTwitterImage" content="https://mm-cp.uk/assets/img/icons/sombre.png">
+
+    <!-- Bibliothèque Color Thief -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #fce4ec;
+            color: #121212;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background 0.6s ease;
+            overflow-x: hidden;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .header-section {
+            width: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 1. Cas AVEC bannière sur Ordi : Bannière fondu */
+        .banner-wrapper {
+            width: 100%;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.95);
+            will-change: filter;
+            transition: filter 0.1s ease-out;
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0) 100%);
+        }
+
+        .banner-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 20px;
+            pointer-events: none;
+        }
+
+        /* 2. Cas SANS bannière sur Ordi : Photo de profil en rond au centre */
+        .profile-hero-section {
+            width: 100%;
+            padding: 60px 20px 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .profile-avatar-wrapper {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 4px solid rgba(255, 255, 255, 0.8);
+            background-color: #ddd;
+        }
+
+        .profile-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .artist-title-container {
+            position: relative;
+            text-align: center;
+            z-index: 10;
+            pointer-events: auto;
+            will-change: transform;
+        }
+
+        .artist-name-blurred {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            position: relative;
+            padding: 5px 20px;
+            display: inline-block;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+        }
+
+        .artist-name-blurred::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            filter: blur(8px);
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+        }
+
+        .artist-name-plain {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #121212;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .artist-logo {
+            max-height: 130px;
+            max-width: 400px;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.5));
+            z-index: 1000000;
+        }
+
+        .content-section {
+            padding: 30px 20px 50px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 100%;
+            max-width: 700px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .artist-info-card {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .artist-genres {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .genre-tag {
+            background-color: #121212;
+            color: #ffffff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .artist-bio {
+            font-size: 0.95rem;
+            color: #333333;
+            line-height: 1.5;
+        }
+
+        .main-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
+            width: 100%;
+        }
+
+        .platform-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 18px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #121212;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .platform-btn:hover {
+            background-color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .platform-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .latest-release-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .latest-release-card:hover {
+            transform: translateY(-3px);
+            background-color: #ffffff;
+        }
+
+        .latest-header {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #333333;
+            padding: 15px 20px 0 20px;
+            font-weight: 800;
+        }
+
+        .latest-body {
+            display: flex;
+            padding: 15px 20px 20px 20px;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .latest-cover {
+            width: 110px;
+            height: 110px;
+            border-radius: 10px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background-color: #ddd;
+        }
+
+        .latest-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            overflow: hidden;
+        }
+
+        .latest-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #121212;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .latest-artist {
+            font-size: 0.95rem;
+            color: #333333;
+            font-weight: 600;
+        }
+
+        .latest-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 8px 18px;
+            background-color: #121212;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            align-self: flex-start;
+            transition: background 0.2s;
+        }
+
+        .latest-btn:hover {
+            background-color: #333333;
+        }
+
+        .other-links-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #333333;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .other-links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .other-link-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #121212;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: background 0.2s, transform 0.1s;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .other-link-item:hover {
+            background-color: #ffffff;
+            transform: translateX(4px);
+        }
+
+        .back-home-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+
+        .back-home-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background-color: rgba(18, 18, 18, 0.85);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .back-home-btn:hover {
+            background-color: #121212;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .back-home-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* 3. Sur Téléphone : Si pas de bannière, la PDP se transforme en bannière avec fondu */
+        @media (max-width: 768px) {
+            .mobile-pdp-banner {
+                width: 100%;
+                height: 380px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .mobile-pdp-img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                filter: brightness(0.95);
+                -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0) 100%);
+                mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0) 100%);
+            }
+
+            .mobile-pdp-overlay {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 150px;
+                display: flex;
+                align-items: flex-end;
+                justify-content: center;
+                padding-bottom: 20px;
+            }
+
+            .banner-wrapper {
+                height: 380px;
+            }
+
+            .artist-name-blurred {
+                font-size: 2.3rem;
+            }
+
+            .artist-logo {
+                max-height: 100px;
+                max-width: 280px;
+            }
+
+            .latest-body {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .latest-info {
+                align-items: center;
+            }
+
+            .latest-btn {
+                align-self: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+        <div id="headerSectionContainer" style="width: 100%;"></div>
+
+        <div class="content-section">
+            <div class="artist-info-card hidden" id="artistInfoCard">
+                <div class="artist-genres" id="artistGenresList"></div>
+                <div class="artist-bio hidden" id="artistBio"></div>
+            </div>
+
+            <div class="main-links-grid" id="mainLinksGrid"></div>
+
+            <a href="#" class="latest-release-card hidden" id="latestReleaseCard">
+                <div class="latest-header">Dernière sortie</div>
+                <div class="latest-body">
+                    <img id="latestCover" src="" alt="Cover" class="latest-cover" crossorigin="anonymous">
+                    <div class="latest-info">
+                        <div class="latest-title" id="latestTitle">Titre</div>
+                        <div class="latest-artist" id="latestArtist">Artiste</div>
+                        <span class="latest-btn">Écouter</span>
+                    </div>
+                </div>
+            </a>
+
+            <div class="other-links-section hidden" id="otherLinksSection">
+                <div class="section-title">Autres liens & réseaux</div>
+                <div class="other-links-list" id="otherLinksList"></div>
+            </div>
+
+            <div class="back-home-container">
+                <a href="/" class="back-home-btn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                    </svg>
+                    Retour à l'accueil
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "https://api.worker.mm-cp.uk";
+
+        function resolveImageUrl(url) {
+            if (!url) return '';
+            if (url.startsWith('http://') || url.startsWith('https://')) {
+                if (url.includes('stock.mm-cp.uk')) {
+                    return url; // URL directe sans proxy pour éviter le timeout 522
+                }
+                if (!url.includes(API_BASE)) {
+                    return `${API_BASE}/api/proxy-download?url=${encodeURIComponent(url)}`;
+                }
+                return url;
+            }
+            const cleanPath = url.startsWith('/') ? url : '/' + url;
+            return `${API_BASE}${cleanPath.startsWith('/api/') ? cleanPath : '/api/files' + cleanPath}`;
+        }
+
+        async function loadArtistPage() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const artistId = urlParams.get('id') || urlParams.get('artiste') || urlParams.get('name');
+            const artistSlug = urlParams.get('slug');
+
+            try {
+                const [artistsRes, releasesRes] = await Promise.all([
+                    fetch(`${API_BASE}/api/artists`).then(r => r.json()).catch(() => ({ artists: [] })),
+                    fetch(`${API_BASE}/api/releases`).then(r => r.json()).catch(() => ({ releases: [] }))
+                ]);
+
+                const artists = artistsRes.artists || [];
+                const releases = releasesRes.releases || [];
+
+                let artist = null;
+                if (artistId) {
+                    artist = artists.find(a => String(a.id) === String(artistId) || (a.name && a.name.toLowerCase() === decodeURIComponent(artistId).toLowerCase()));
+                }
+                if (!artist && artistSlug) {
+                    artist = artists.find(a => a.name && a.name.toLowerCase().replace(/[^a-z0-9-_]/g, '-') === artistSlug.toLowerCase());
+                }
+                if (!artist && artists.length > 0) {
+                    artist = artists[0];
+                }
+
+                if (!artist) {
+                    document.querySelector('.page-wrapper').innerHTML = '<div style="padding: 50px; text-align: center; color: #121212;">Artiste introuvable.</div>';
+                    return;
+                }
+
+                renderArtist(artist, releases);
+
+            } catch (err) {
+                console.error("Erreur de chargement de la page artiste :", err);
+                document.querySelector('.page-wrapper').innerHTML = '<div style="padding: 50px; text-align: center; color: #121212;">Erreur lors du chargement des données.</div>';
+            }
+        }
+
+        function renderArtist(artist, allReleases) {
+            const headerContainer = document.getElementById('headerSectionContainer');
+            const name = artist.name || "Artiste";
+            const bannerUrl = resolveImageUrl(artist.bannerUrl || artist.banner_url || "");
+            const photoUrl = resolveImageUrl(artist.photo || artist.photoUrl || artist.photo_url || "");
+            const logoUrl = resolveImageUrl(artist.logoUrl || artist.logo_url || "");
+
+            // --- MISE À JOUR DYNAMIQUE DES MÉTADONNÉES DE PARTAGE (Open Graph / Twitter) ---
+            document.title = `${name} - Morgann Music CP`;
+
+            const shareDesc = artist.description ? artist.description.substring(0, 150) + '...' : `Découvrez le profil et les musiques de ${name} sur Morgann Music CP.`;
+            const shareImage = photoUrl || bannerUrl || 'https://mm-cp.uk/assets/img/icons/sombre.png';
+
+            document.getElementById('metaOgTitle').setAttribute('content', `${name} - Morgann Music CP`);
+            document.getElementById('metaOgDesc').setAttribute('content', shareDesc);
+            document.getElementById('metaOgImage').setAttribute('content', shareImage);
+
+            document.getElementById('metaTwitterTitle').setAttribute('content', `${name} - Morgann Music CP`);
+            document.getElementById('metaTwitterDesc').setAttribute('content', shareDesc);
+            document.getElementById('metaTwitterImage').setAttribute('content', shareImage);
+            // -----------------------------------------------------------------------------
+
+            const useBanner = Boolean(bannerUrl);
+            const isMobile = window.innerWidth <= 768;
+
+            if (useBanner) {
+                const proxyBannerUrl = resolveImageUrl(bannerUrl);
+
+                headerContainer.innerHTML = `
+                    <div class="banner-wrapper" id="headerWrapper">
+                        <img src="${proxyBannerUrl}" alt="${name}" class="banner-img" id="headerImg">
+                        <div class="banner-overlay" id="bannerOverlay">
+                            <div class="artist-title-container" id="titleContainer">
+                                ${logoUrl ? `<img src="${logoUrl}" alt="${name}" class="artist-logo">` : `<h1 class="artist-name-blurred" data-text="${name}">${name}</h1>`}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                setupColorThief(proxyBannerUrl);
+                initParallaxEffect();
+            } else {
+                const defaultPhoto = 'https://mm-cp.uk/assets/img/icons/sombre.png';
+                const finalPhotoUrl = photoUrl || defaultPhoto;
+
+                if (isMobile) {
+                    // Téléphone sans bannière : PDP avec fondu plein écran
+                    headerContainer.innerHTML = `
+                        <div class="mobile-pdp-banner">
+                            <img src="${finalPhotoUrl}" alt="${name}" class="mobile-pdp-img" onerror="this.src='${defaultPhoto}'">
+                            <div class="mobile-pdp-overlay">
+                                <div class="artist-title-container">
+                                    ${logoUrl ? `<img src="${logoUrl}" alt="${name}" class="artist-logo">` : `<h1 class="artist-name-blurred" data-text="${name}">${name}</h1>`}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Ordinateur sans bannière : PDP en rond au centre
+                    headerContainer.innerHTML = `
+                        <div class="profile-hero-section">
+                            <div class="profile-avatar-wrapper">
+                                <img src="${finalPhotoUrl}" alt="${name}" class="profile-avatar-img" onerror="this.src='${defaultPhoto}'">
+                            </div>
+                            <div class="artist-title-container">
+                                ${logoUrl ? `<img src="${logoUrl}" alt="${name}" class="artist-logo">` : `<h1 class="artist-name-plain">${name}</h1>`}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                setupColorThief(finalPhotoUrl);
+            }
+
+            const primaryGenre = artist.primaryGenre || artist.genre || "";
+            const secondaryGenre = artist.secondaryGenre || "";
+            const description = artist.description || "";
+            const genresList = document.getElementById('artistGenresList');
+            const bioElement = document.getElementById('artistBio');
+            const infoCard = document.getElementById('artistInfoCard');
+            let hasInfo = false;
+
+            let genresHtml = '';
+            if (primaryGenre) {
+                genresHtml += `<span class="genre-tag">${primaryGenre}</span>`;
+                hasInfo = true;
+            }
+            if (secondaryGenre) {
+                genresHtml += `<span class="genre-tag">${secondaryGenre}</span>`;
+                hasInfo = true;
+            }
+
+            if (genresHtml) {
+                genresList.innerHTML = genresHtml;
+                genresList.classList.remove('hidden');
+            }
+
+            if (description) {
+                bioElement.innerText = description;
+                bioElement.classList.remove('hidden');
+                hasInfo = true;
+            }
+
+            if (hasInfo) {
+                infoCard.classList.remove('hidden');
+            }
+
+            const mainGrid = document.getElementById('mainLinksGrid');
+            const mainLinks = [];
+
+            const appleUrl = artist.linkApple || artist.appleMusicId || artist.apple_url;
+            const spotifyUrl = artist.linkSpotify || artist.spotifyId || artist.spotify_url;
+            const instaUrl = artist.linkInsta || artist.instagramUrl || artist.instagram_url;
+            const ytUrl = artist.linkYtChan || artist.linkYtMusic || artist.youtubeUrl || artist.youtube_url;
+
+            if (appleUrl) {
+                mainLinks.push(`<a href="${appleUrl.startsWith('http') ? appleUrl : 'https://music.apple.com/' + appleUrl}" target="_blank" class="platform-btn">
+                    <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.89 5.37c.61-.75 1.02-1.8 0.91-2.85-.9.04-1.99.6-2.62 1.35-.56.65-1.05 1.71-.92 2.74 1 .08 2.02-.49 2.63-1.24z"/></svg>
+                    Apple Music
+                </a>`);
+            }
+
+            if (spotifyUrl) {
+                mainLinks.push(`<a href="${spotifyUrl.startsWith('http') ? spotifyUrl : 'https://open.spotify.com/artist/' + spotifyUrl}" target="_blank" class="platform-btn">
+                    <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.521 17.34c-.24.359-.72.48-1.081.24-2.999-1.8-6.78-2.221-11.22-1.2-.42.12-.84-.18-.96-.6-.12-.42.18-.84.6-.96 4.8-1.08 9.06-.6 12.48 1.56.36.24.48.72.18 1.08zm1.56-3.48c-.3.48-.9.6-1.38.3-3.42-2.1-8.64-2.7-12.66-1.44-.54.18-1.14-.12-1.32-.66-.18-.54.12-1.14.66-1.32 4.44-1.38 10.2-1.74 14.28.66.48.3.6.9.3 1.44zm.12-3.66C14.4 7.92 8.34 7.74 4.86 8.82c-.66.18-1.38-.18-1.56-.84-.18-.66.18-1.38.84-1.56 4.14-1.26 10.92-1.02 15.36 1.62.6.36.78 1.14.42 1.74-.36.6-1.14.78-1.74.42z"/></svg>
+                    Spotify
+                </a>`);
+            }
+
+            if (instaUrl) {
+                mainLinks.push(`<a href="${instaUrl.startsWith('http') ? instaUrl : 'https://instagram.com/' + instaUrl}" target="_blank" class="platform-btn">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    Instagram
+                </a>`);
+            }
+
+            if (ytUrl) {
+                mainLinks.push(`<a href="${ytUrl.startsWith('http') ? ytUrl : 'https://youtube.com/' + ytUrl}" target="_blank" class="platform-btn">
+                    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    YouTube
+                </a>`);
+            }
+
+            if (mainLinks.length > 0) {
+                mainGrid.innerHTML = mainLinks.join('');
+            } else {
+                mainGrid.classList.add('hidden');
+            }
+
+            const artistReleases = allReleases.filter(r =>
+                (r.artistName && r.artistName.toLowerCase() === name.toLowerCase()) ||
+                (r.artist_name && r.artist_name.toLowerCase() === name.toLowerCase())
+            );
+            const latest = artistReleases.length > 0 ? artistReleases[0] : (allReleases.length > 0 ? allReleases[0] : null);
+
+            if (latest) {
+                const coverRaw = latest.coverUrl || latest.cover_url || '';
+                document.getElementById('latestCover').src = resolveImageUrl(coverRaw);
+                document.getElementById('latestTitle').innerText = latest.title || "Titre récent";
+                document.getElementById('latestArtist').innerText = latest.artistName || latest.artist_name || name;
+
+                const releaseId = latest.id || latest._id || '';
+                document.getElementById('latestReleaseCard').href = `sortie.html?id=${releaseId}`;
+                document.getElementById('latestReleaseCard').classList.remove('hidden');
+            }
+
+            const otherLinksList = document.getElementById('otherLinksList');
+            const otherLinks = [];
+
+            if (artist.linkAmazon || artist.amazon_url) otherLinks.push({ name: 'Amazon Music', url: artist.linkAmazon || artist.amazon_url });
+            if (artist.linkSoundcloud || artist.soundcloud_url) otherLinks.push({ name: 'SoundCloud', url: artist.linkSoundcloud || artist.soundcloud_url });
+            if (artist.linkWebsite || artist.website_url) otherLinks.push({ name: 'Site officiel', url: artist.linkWebsite || artist.website_url });
+            if (artist.linkFb || artist.facebookUrl || artist.facebook_url) otherLinks.push({ name: 'Facebook', url: artist.linkFb || artist.facebookUrl || artist.facebook_url });
+            if (artist.linkX || artist.twitter_url) otherLinks.push({ name: 'X (Twitter)', url: artist.linkX || artist.twitter_url });
+            if (artist.linkWiki || artist.wikipedia_url) otherLinks.push({ name: 'Wikipédia', url: artist.linkWiki || artist.wikipedia_url });
+
+            if (otherLinks.length > 0) {
+                otherLinksList.innerHTML = otherLinks.map(l => `
+                    <a href="${l.url.startsWith('http') ? l.url : 'https://' + l.url}" target="_blank" class="other-link-item">
+                        <span>${l.name}</span>
+                        <span>&rarr;</span>
+                    </a>
+                `).join('');
+                document.getElementById('otherLinksSection').classList.remove('hidden');
+            }
+        }
+
+        function setupColorThief(imageUrl) {
+            const thiefImg = new Image();
+            thiefImg.crossOrigin = "anonymous";
+
+            // Si l'image provient d'un domaine externe sans CORS, on la passe par le proxy pour éviter le blocage
+            let finalThiefUrl = imageUrl;
+            if (imageUrl.includes('stock.mm-cp.uk') && !imageUrl.includes(API_BASE)) {
+                finalThiefUrl = `${API_BASE}/api/proxy-download?url=${encodeURIComponent(imageUrl)}`;
+            }
+
+            thiefImg.src = finalThiefUrl;
+            thiefImg.onload = function () {
+                try {
+                    const colorThief = new ColorThief();
+                    const color = colorThief.getColor(thiefImg);
+                    if (color) {
+                        const r = color[0], g = color[1], b = color[2];
+                        const r2 = Math.min(255, Math.max(r, 120) * 1.4);
+                        const g2 = Math.min(255, Math.max(g, 120) * 1.4);
+                        const b2 = Math.min(255, Math.max(b, 120) * 1.4);
+                        document.body.style.background = `linear-gradient(135deg, rgb(${r2},${g2},${b2}), rgb(${r},${g},${b}))`;
+                    }
+                } catch (e) {
+                    console.log("Color Thief erreur:", e);
+                }
+            };
+        }
+
+
+        function initParallaxEffect() {
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                const headerImg = document.getElementById('headerImg');
+                const titleContainer = document.getElementById('titleContainer');
+                const headerWrapper = document.getElementById('headerWrapper');
+
+                if (headerImg) {
+                    const blurAmount = Math.min(15, scrollY * 0.04);
+                    headerImg.style.filter = `brightness(${Math.max(0.6, 0.95 - scrollY * 0.001)}) blur(${blurAmount}px)`;
+                }
+
+                if (titleContainer && headerWrapper) {
+                    const maxHeaderHeight = headerWrapper.offsetHeight;
+                    const maxTranslate = maxHeaderHeight * 0.35;
+                    const parallaxY = Math.min(maxTranslate, scrollY * 0.2);
+                    titleContainer.style.transform = `translateY(${parallaxY}px)`;
+                }
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', loadArtistPage);
+    </script>
+</body>
+
+</html>

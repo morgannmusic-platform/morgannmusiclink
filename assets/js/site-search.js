@@ -1,105 +1,106 @@
-import { RELEASES, normalizePath } from "./release-data.js";
-
-const RECENT_PAGES_KEY = "morgann_recent_release_pages";
-const MAX_RECENT = 5;
-
-function escapeHtml(value) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
-
-function initSearchBar() {
-  const input = document.getElementById("global-search-input");
-  const results = document.getElementById("global-search-results");
-
-  if (!input || !results) return;
-
-  const render = (query) => {
-    const term = query.trim().toLowerCase();
-    if (!term) {
-      results.innerHTML = "";
-      results.classList.remove("active");
-      return;
-    }
-
-    const matches = RELEASES.filter((item) => {
-      const title = item.title.toLowerCase();
-      const subtitle = (item.subtitle || "").toLowerCase();
-      return title.includes(term) || subtitle.includes(term);
-    }).slice(0, 8);
-
-    if (!matches.length) {
-      results.innerHTML = '<div class="search-empty">Aucune sortie trouvée</div>';
-      results.classList.add("active");
-      return;
-    }
-
-    results.innerHTML = matches
-      .map(
-        (item) =>
-          `<a class="search-item" href="${item.url}"><span>${escapeHtml(item.title)}</span><small>${escapeHtml(
-            item.subtitle || "Sortie"
-          )}</small></a>`
-      )
-      .join("");
-
-    results.classList.add("active");
-  };
-
-  input.addEventListener("input", (event) => {
-    render(event.target.value);
-  });
-
-  document.addEventListener("click", (event) => {
-    if (!results.contains(event.target) && event.target !== input) {
-      results.classList.remove("active");
-    }
-  });
-}
-
-function trackReleasePageVisit() {
-  const currentPath = normalizePath(window.location.pathname);
-  const release = RELEASES.find((item) => item.url === currentPath);
-
-  if (!release) return;
-
-  const raw = localStorage.getItem(RECENT_PAGES_KEY);
-  const parsed = raw ? JSON.parse(raw) : [];
-
-  const filtered = parsed.filter((item) => item.url !== release.url);
-  filtered.unshift({
-    title: release.title,
-    url: release.url,
-    visitedAt: Date.now()
-  });
-
-  localStorage.setItem(RECENT_PAGES_KEY, JSON.stringify(filtered.slice(0, MAX_RECENT)));
-}
-
-function renderRecentOnHome() {
-  const holder = document.getElementById("recent-pages-list");
-  if (!holder) return;
-
-  const raw = localStorage.getItem(RECENT_PAGES_KEY);
-  const parsed = raw ? JSON.parse(raw) : [];
-
-  if (!parsed.length) {
-    holder.innerHTML = "<li>Aucune page consultée pour le moment.</li>";
-    return;
-  }
-
-  holder.innerHTML = parsed
-    .slice(0, MAX_RECENT)
-    .map((item) => `<li><a href="${item.url}">${escapeHtml(item.title)}</a></li>`)
-    .join("");
-}
-
 export function initGlobalSiteFeatures() {
-  initSearchBar();
-  trackReleasePageVisit();
-  renderRecentOnHome();
+  const searchInput = document.getElementById("global-search-input");
+  const searchResults = document.getElementById("global-search-results");
+
+  if (!searchInput || !searchResults) return;
+
+  let debounceTimer = null;
+
+  searchInput.addEventListener("input", (e) => {
+    const query = e.target.value.trim().toLowerCase();
+    clearTimeout(debounceTimer);
+
+    if (!query) {
+      searchResults.innerHTML = "";
+      searchResults.classList.remove("active");
+      return;
+    }
+
+    debounceTimer = setTimeout(async () => {
+      try {
+        // Récupération globale des sorties et des artistes
+        const [releasesRes, artistsRes] = await Promise.all([
+          fetch("https://api.worker.mm-cp.uk/api/releases").then(r => r.json()).catch(() => ({ releases: [] })),
+          fetch("https://api.worker.mm-cp.uk/api/artists").then(r => r.json()).catch(() => ({ artists: [] }))
+        ]);
+
+        const releases = releasesRes.releases || [];
+        const artists = artistsRes.artists || [];
+
+        // Normalisation pour comparer sans accents
+        const normalize = (str) => (str || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const qNorm = normalize(query);
+
+        // 1. Filtrer les SORTIES avec le statut "direct" et correspondant à la recherche
+        const matchingReleases = releases.filter(r => {
+          const status = normalize(r.status);
+          const title = normalize(r.title);
+          const artist = normalize(r.artistName);
+          return status === "direct" && (title.includes(qNorm) || artist.includes(qNorm));
+        });
+
+        // Trouver les noms d'artistes qui ont au moins UNE sortie avec le statut "direct"
+        const artistsWithDirectReleasesNames = new Set(
+          releases
+            .filter(r => normalize(r.status) === "direct" && r.artistName)
+            .map(r => r.artistName.trim().toLowerCase())
+        );
+
+        // 2. Filtrer les ARTISTES correspondant à la recherche ET ayant au moins une sortie "direct"
+        const matchingArtists = artists.filter(a => {
+          const name = a.name ? a.name.trim().toLowerCase() : "";
+          const hasDirect = artistsWithDirectReleasesNames.has(name);
+          return hasDirect && normalize(a.name).includes(qNorm);
+        });
+
+        // Construction du HTML des résultats
+        let html = "";
+
+        if (matchingReleases.length === 0 && matchingArtists.length === 0) {
+          searchResults.innerHTML = `<div class="search-empty" style="padding: 12px; color: #fff; text-align: center;">Aucun résultat direct trouvé</div>`;
+          searchResults.classList.add("active");
+          return;
+        }
+
+        // Affichage des Artistes trouvés
+        if (matchingArtists.length > 0) {
+          html += `<div style="padding: 6px 12px; font-size: 11px; text-transform: uppercase; color: #FC8FB0; font-weight: 700;">Artistes (Sorties Directes)</div>`;
+          matchingArtists.forEach(artist => {
+            html += `
+                            <a href="artiste.html?name=${encodeURIComponent(artist.name)}" class="search-item">
+                                <span>🎤 ${artist.name}</span>
+                                <small style="color: #4CAF50; font-weight: 600;">Direct</small>
+                            </a>
+                        `;
+          });
+        }
+
+        // Affichage des Sorties trouvées
+        if (matchingReleases.length > 0) {
+          html += `<div style="padding: 6px 12px; font-size: 11px; text-transform: uppercase; color: #FC8FB0; font-weight: 700; margin-top: 4px;">Sorties (Direct)</div>`;
+          matchingReleases.forEach(release => {
+            html += `
+                            <a href="sortie.html?id=${release.id}" class="search-item">
+                                <span>🎵 ${release.title} <small style="opacity:0.7;">(${release.artistName || 'Artiste'})</small></span>
+                                <small style="color: #4CAF50; font-weight: 600;">Direct</small>
+                            </a>
+                        `;
+          });
+        }
+
+        searchResults.innerHTML = html;
+        searchResults.classList.add("active");
+
+      } catch (err) {
+        console.error("Erreur de recherche globale :", err);
+      }
+    }, 300);
+  });
+
+  // Fermer les résultats si on clique en dehors
+  document.addEventListener("click", (e) => {
+    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+      searchResults.classList.remove("active");
+    }
+  });
 }

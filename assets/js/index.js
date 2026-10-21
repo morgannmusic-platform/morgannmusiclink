@@ -1,250 +1,93 @@
+document.addEventListener("DOMContentLoaded", async () => {
+    const artistesContainer = document.getElementById("artistes-container");
+    const sortiesContainer = document.getElementById("sorties-container");
 
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
+    // Fonction pour forcer l'URL absolue de l'API Worker
+    const fixImgUrl = (url) => {
+        if (!url) return "https://mm-cp.uk/assets/img/icons/sombre.png";
+        if (url.startsWith("http")) return url;
+        if (url.startsWith("pochette/") || url.startsWith("cover/")) {
+            return `https://api.worker.mm-cp.uk/api/files/${url}`;
+        }
+        if (url.startsWith("/")) return `https://api.worker.mm-cp.uk${url}`;
+        return `https://api.worker.mm-cp.uk/api/files/${url}`;
+    };
 
-        // Script pour le menu hamburger
-        const menuToggle = document.getElementById('menu-toggle');
-        const navLinks = document.getElementById('nav-links');
+    try {
+        const [resReleases, resArtists] = await Promise.all([
+            fetch("https://api.worker.mm-cp.uk/api/releases"),
+            fetch("https://api.worker.mm-cp.uk/api/artists")
+        ]);
 
-        // Nous utilisons un seul écouteur d'événement pour le basculement
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
+        if (!resReleases.ok || !resArtists.ok) throw new Error("Erreur de communication avec l'API");
 
+        const dataReleases = await resReleases.json();
+        const dataArtists = await resArtists.json();
 
-        // ANIMATION DES LETTRES
-        document.querySelectorAll('.letter').forEach(letter => {
-            letter.addEventListener('mouseenter', function() {
-                if (!this.classList.contains('animate')) {
-                    this.classList.add('animate');
-                    setTimeout(() => {
-                        this.classList.remove('animate');
-                    }, 600);
-                }
-            });
-        });
-    
+        const allReleases = dataReleases.releases || [];
+        const artists = dataArtists.artists || [];
 
-    
-        // 1. Utilisation de querySelector pour cibler les classes CSS
-        const animationZone = document.querySelector('.hero-text');
-        const animatedText = document.querySelector('.morgann-music');
+        // 1. Filtrer uniquement les sorties qui ont le statut "direct"
+        const directReleases = allReleases.filter(r => (r.status || "").toLowerCase() === "direct");
 
-        // Vérifie si les éléments existent avant de continuer
-        if (animationZone && animatedText) {
+        // 2. Les 5 dernières sorties (parmi celles qui sont "direct")
+        const dernieresSorties = directReleases.slice(0, 5);
+        sortiesContainer.innerHTML = "";
 
-            // Récupération des couleurs CSS une seule fois
-            const colorStart = getComputedStyle(document.documentElement).getPropertyValue('--light-color-start').trim();
-            const colorEnd = getComputedStyle(document.documentElement).getPropertyValue('--light-color-end').trim();
-
-            // Événement au mouvement de la souris
-            animationZone.addEventListener('mousemove', (e) => {
-                const rect = animationZone.getBoundingClientRect();
-
-                // Calcule la position X relative dans le conteneur
-                const x = e.clientX - rect.left;
-                const percentage = (x / rect.width) * 100;
-
-                // Met à jour le dégradé (avec la "fenêtre" de lumière de 40%)
-                animatedText.style.background = `linear-gradient(90deg, ${colorStart} ${percentage - 20}%, ${colorEnd} ${percentage + 20}%)`;
-
-                // Sécurité : Maintenir le clip textuel (même si le CSS devrait le faire)
-                animatedText.style.webkitBackgroundClip = 'text';
-                animatedText.style.webkitTextFillColor = 'transparent';
-            });
-
-            // Événement lorsque la souris quitte la zone (CORRECTION DU BUG)
-            animationZone.addEventListener('mouseleave', () => {
-                // 1. Réinitialiser la couleur/dégradé à la valeur statique (0% et 100%)
-                animatedText.style.background = `linear-gradient(90deg, ${colorStart} 0%, ${colorEnd} 100%)`;
-
-                // 2. Réaffirmer les propriétés de clip textuel
-                animatedText.style.webkitBackgroundClip = 'text';
-                animatedText.style.webkitTextFillColor = 'transparent';
-
-                // 3. (Facultatif) Annuler la transformation de mise à l'échelle si elle était appliquée via JS
-                // Note: Vous gérez déjà le scale via :hover en CSS, donc cette ligne est facultative/inutile
-                // si vous vous en tenez à la solution CSS.
-                // animatedText.style.transform = 'scale(1)'; 
-            });
-
+        if (dernieresSorties.length === 0) {
+            sortiesContainer.innerHTML = "<p>Aucune sortie disponible.</p>";
         } else {
-            console.error("Erreur: Les éléments .hero-text ou .morgann-music n'ont pas été trouvés dans le DOM.");
-        }
-    
+            dernieresSorties.forEach(release => {
+                // On remplace le lien externe par sortie.html?id=
+                const releaseId = release.id || release._id; // Adapte selon le nom de la clé de l'ID dans ton API
+                const link = `sortie.html?id=${releaseId}`;
+                const cover = fixImgUrl(release.cover_url || release.coverUrl);
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const infoBouton = document.querySelector('.info-bouton');
-
-            infoBouton.addEventListener('click', function() {
-                // Inverse la classe 'ouvert' : si elle est là, il l'enlève ; sinon, il l'ajoute.
-                infoBouton.classList.toggle('ouvert');
+                sortiesContainer.innerHTML += `
+                    <a href="${link}" class="mml-card">
+                        <img src="${cover}" alt="Cover ${release.title}">
+                        <div class="mml-card-title">${release.title}</div>
+                    </a>
+                `;
             });
-        });
-
-    
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Sélectionner tous les éléments à animer
-            const elementsToAnimate = document.querySelectorAll('.titre-page');
-
-            // 2. Définir les options de l'observateur
-            const observerOptions = {
-                root: null, // Par défaut, la fenêtre d'affichage (viewport)
-                rootMargin: '0px', // Marge autour du viewport
-                threshold: 0.1 // Déclencheur : 10% de l'élément doit être visible
-            };
-
-            // 3. La fonction à exécuter lorsque l'élément est vu (ou n'est plus vu)
-            const observerCallback = (entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // L'élément est dans le viewport : on ajoute la classe 'visible'
-                        entry.target.classList.add('visible');
-
-                        // Optionnel : on arrête de l'observer pour ne pas redéclencher l'animation
-                        observer.unobserve(entry.target);
-                    } else {
-                        entry.target.classList.remove('visible');
-                    }
-                    // else {
-                    //   Si on voulait que l'animation se répète en sortant/rentrant, on ajouterait ici entry.target.classList.remove('visible');
-                    // }
-                });
-            };
-
-            // 4. Créer l'observateur
-            const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-            // 5. Attacher l'observateur à chaque élément
-            elementsToAnimate.forEach(element => {
-                observer.observe(element);
-            });
-        });
-
-    
-        function lancerConfettis(nb = 300) {
-            const canvas = document.getElementById('confetti-canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            const confettis = [];
-            const groundY = canvas.height;
-
-            for (let i = 0; i < nb; i++) {
-                confettis.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * -canvas.height,
-                    r: Math.random() * 6 + 4,
-                    d: Math.random() * nb,
-                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
-                    tilt: Math.random() * 10 - 10,
-                    tiltAngleIncremental: Math.random() * 0.07 + 0.05,
-                    tiltAngle: 0,
-                    speed: Math.random() * 2 + 2,
-                    landed: false
-                });
-            }
-
-            let fadeOutStarted = false;
-            let textOpacity = 1;
-
-            function draw() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                confettis.forEach(c => {
-                    ctx.beginPath();
-                    ctx.lineWidth = c.r / 2;
-                    ctx.strokeStyle = c.color;
-                    ctx.moveTo(c.x + c.tilt + c.r / 4, c.y);
-                    ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 4);
-                    ctx.stroke();
-                });
-
-                update();
-            }
-
-            function update() {
-                let allLanded = true;
-                confettis.forEach(c => {
-                    if (!c.landed) {
-                        c.tiltAngle += c.tiltAngleIncremental;
-                        c.y += c.speed;
-                        c.tilt = Math.sin(c.tiltAngle) * 15;
-                        if (c.y >= groundY - c.r) {
-                            c.y = groundY - c.r;
-                            c.speed = 0;
-                            c.landed = true;
-                        } else {
-                            allLanded = false;
-                        }
-                    }
-                });
-
-                if (allLanded && !fadeOutStarted) {
-                    fadeOutConfettis();
-                }
-            }
-
-            const interval = setInterval(draw, 20);
-
-            // Après 3 secondes : enlever le blur et fade le texte
-            setTimeout(() => {
-                const overlay = document.getElementById('newyear-overlay');
-                if (overlay) overlay.style.backdropFilter = "blur(0px)";
-                document.body.classList.remove('no-scroll');
-
-                const fadeText = setInterval(() => {
-                    textOpacity -= 0.02;
-                    const textDiv = document.querySelector('.newyear-text');
-                    if (textDiv) textDiv.style.opacity = textOpacity;
-                    if (textOpacity <= 0) clearInterval(fadeText);
-                }, 20);
-
-            }, 3000);
-
-            // CROIX DE FERMETURE
-            const closeBtn = document.getElementById('close-overlay');
-            closeBtn.addEventListener('click', () => {
-                clearInterval(interval);
-                const overlay = document.getElementById('newyear-overlay');
-                if (overlay) overlay.remove();
-                document.body.classList.remove('no-scroll');
-            });
-
-            function fadeOutConfettis() {
-                fadeOutStarted = true;
-                let alpha = 1;
-                const fadeInterval = setInterval(() => {
-                    alpha -= 0.02;
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.globalAlpha = alpha;
-                    confettis.forEach(c => {
-                        ctx.beginPath();
-                        ctx.lineWidth = c.r / 2;
-                        ctx.strokeStyle = c.color;
-                        ctx.moveTo(c.x + c.tilt + c.r / 4, c.y);
-                        ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 4);
-                        ctx.stroke();
-                    });
-                    ctx.globalAlpha = 1;
-                    if (alpha <= 0) {
-                        clearInterval(fadeInterval);
-                        clearInterval(interval);
-                        const overlay = document.getElementById('newyear-overlay');
-                        if (overlay) overlay.remove();
-                    }
-                }, 20);
-            }
         }
 
-        window.addEventListener('load', () => {
-            document.body.classList.add('no-scroll'); // bloque le scroll pendant l'animation
-            lancerConfettis(300);
+        // 3. Compter les sorties "direct" par artiste pour le top 5
+        const stats = {};
+        directReleases.forEach(r => {
+            const name = r.artistName;
+            if (name) stats[name] = (stats[name] || 0) + 1;
         });
+
+        // On ne garde que les artistes qui ont au moins une sortie "direct" (count > 0)
+        const topArtistes = artists
+            .map(a => ({ ...a, count: stats[a.name] || 0 }))
+            .filter(a => a.count > 0)
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 5);
+
+        artistesContainer.innerHTML = "";
+
+        if (topArtistes.length === 0) {
+            artistesContainer.innerHTML = "<p>Aucun artiste disponible.</p>";
+        } else {
+            topArtistes.forEach(artiste => {
+                // Redirection vers artiste.html?name= avec encodage de l'URL
+                const link = `artiste.html?name=${encodeURIComponent(artiste.name)}`;
+                const photo = fixImgUrl(artiste.photo || artiste.logo_url || artiste.logoUrl);
+
+                artistesContainer.innerHTML += `
+                    <a href="${link}" class="mml-card">
+                        <img src="${photo}" alt="Photo ${artiste.name}">
+                        <div class="mml-card-title">${artiste.name}</div>
+                    </a>
+                `;
+            });
+        }
+
+    } catch (error) {
+        console.error("Erreur critique :", error);
+        artistesContainer.innerHTML = "<p>Impossible de charger les artistes.</p>";
+        sortiesContainer.innerHTML = "<p>Impossible de charger les sorties.</p>";
+    }
+});
