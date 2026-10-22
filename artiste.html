@@ -16,13 +16,15 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="metaTwitterTitle" content="Artiste - Morgann Music CP">
     <meta name="twitter:description" id="metaTwitterDesc"
         content="Découvrez le profil, les liens et les dernières sorties de l'artiste sur Morgann Music CP.">
     <meta name="twitter:image" id="metaTwitterImage" content="https://mm-cp.uk/assets/img/icons/sombre.png">
+
+    <!-- Schéma.org JSON-LD dynamique injecté depuis la colonne schema_json de la table artists -->
+    <script type="application/ld+json" id="schemaOrgData"></script>
 
     <!-- Bibliothèque Color Thief -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
@@ -591,6 +593,50 @@
             document.getElementById('metaTwitterTitle').setAttribute('content', `${name} - Morgann Music CP`);
             document.getElementById('metaTwitterDesc').setAttribute('content', shareDesc);
             document.getElementById('metaTwitterImage').setAttribute('content', shareImage);
+
+            // Injection dynamique du Schema JSON-LD depuis la colonne schema_json BDD
+            const schemaTag = document.getElementById('schemaOrgData');
+            const customSchema = artist.schema_json || artist.schemaJson;
+
+            if (customSchema) {
+                try {
+                    const schemaObj = typeof customSchema === 'string' ? JSON.parse(customSchema) : customSchema;
+                    schemaTag.textContent = JSON.stringify(schemaObj, null, 2);
+                } catch (e) {
+                    console.warn("Erreur parsing schema_json artiste, repli sur le schéma par défaut :", e);
+                    const defaultSchema = {
+                        "@context": "https://schema.org",
+                        "@type": "MusicGroup",
+                        "name": name,
+                        "url": window.location.href,
+                        "image": shareImage,
+                        "description": shareDesc
+                    };
+                    schemaTag.textContent = JSON.stringify(defaultSchema, null, 2);
+                }
+            } else {
+                const defaultSchema = {
+                    "@context": "https://schema.org",
+                    "@type": "MusicGroup",
+                    "name": name,
+                    "url": window.location.href,
+                    "image": shareImage,
+                    "description": shareDesc
+                };
+                schemaTag.textContent = JSON.stringify(defaultSchema, null, 2);
+            }
+
+            let cleanSchema = customSchema;
+            if (typeof cleanSchema === 'string') {
+                // Supprimer les balises <script> si elles sont présentes par erreur
+                cleanSchema = cleanSchema.replace(/<\/?script[^>]*>/g, '').trim();
+                try {
+                    const schemaObj = JSON.parse(cleanSchema);
+                    schemaTag.textContent = JSON.stringify(schemaObj, null, 2);
+                } catch (e) {
+                    // Gestion du repli...
+                }
+            }
             // -----------------------------------------------------------------------------
 
             const useBanner = Boolean(bannerUrl);

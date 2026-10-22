@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sortie - Morgann Music CP</title>
+    <title>Sortie - Morgann Music Link</title>
 
     <!-- Balises Open Graph / Réseaux sociaux (mises à jour dynamiquement) -->
     <meta property="OG:TITLE" id="metaOgTitle" content="Sortie - Morgann Music CP">
@@ -12,6 +12,7 @@
         content="Découvrez cette sortie et écoutez les pistes en streaming sur Morgann Music CP.">
     <meta property="OG:IMAGE" id="metaOgImage" content="https://mm-cp.uk/assets/img/icons/sombre.png">
     <meta property="OG:TYPE" content="music.album">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -21,6 +22,9 @@
     <meta name="twitter:description" id="metaTwitterDesc"
         content="Découvrez cette sortie et écoutez les pistes en streaming sur Morgann Music CP.">
     <meta name="twitter:image" id="metaTwitterImage" content="https://mm-cp.uk/assets/img/icons/sombre.png">
+
+    <!-- Emplacement Schéma.org -->
+    <div id="schemaContainer"></div>
 
     <script type="module" src="/assets/js/navbar.js" defer></script>
     <style>
@@ -63,7 +67,6 @@
             margin-top: 0;
         }
 
-        /* Par défaut (Ordinateur) : Carré centré non étiré */
         .banner-wrapper {
             width: 320px;
             height: 320px;
@@ -88,7 +91,6 @@
             background: transparent;
         }
 
-        /* Sur Téléphone : Plein écran avec fondu vers le bas (comme avant) */
         @media (max-width: 768px) {
             .header-section {
                 justify-content: flex-end;
@@ -601,12 +603,14 @@
         let pistesGlobales = [];
         let infoSortieGlobale = {};
 
+        // Résolution de l'URL d'image/audio pour passer par le proxy si besoin (outrepasser les blocages CORS)
         function resolveFileUrl(url) {
             if (!url || typeof url !== "string") return null;
             const value = String(url).trim();
             if (!value) return "";
-            if (value.startsWith("http://") || value.startsWith("https://") || value.startsWith("data:")) {
-                return value;
+            if (value.startsWith("http://") || value.startsWith("https://")) {
+                if (value.includes(API_BASE)) return value;
+                return `${API_BASE}/api/proxy-download?url=${encodeURIComponent(value)}`;
             }
             const cleanPath = value.replace(/^\/+/, "");
             if (cleanPath.startsWith("api/files/")) {
@@ -651,9 +655,8 @@
             const coverUrlRaw = data.coverUrl || data.cover_url || "";
             const coverUrl = resolveFileUrl(coverUrlRaw);
 
-            // --- MISE À JOUR DYNAMIQUE DES MÉTADONNÉES DE PARTAGE (Open Graph / Twitter) ---
+            // Métadonnées
             document.title = `${title} - ${artistName} | Morgann Music CP`;
-
             const shareDesc = `Écoutez "${title}" par ${artistName} sur Morgann Music CP.`;
             const shareImage = coverUrl || 'https://mm-cp.uk/assets/img/icons/sombre.png';
 
@@ -664,7 +667,46 @@
             document.getElementById('metaTwitterTitle').setAttribute('content', `${title} - ${artistName}`);
             document.getElementById('metaTwitterDesc').setAttribute('content', shareDesc);
             document.getElementById('metaTwitterImage').setAttribute('content', shareImage);
-            // -----------------------------------------------------------------------------
+
+            // INJECTION SÉCURISÉE DU SCHÉMA JSON-LD (Accepte les balises <script> stockées brut en BDD)
+            const schemaContainer = document.getElementById('schemaContainer');
+            const customSchema = data.schema_json || data.schemaJson;
+
+            if (customSchema && typeof customSchema === 'string') {
+                if (customSchema.includes('<script')) {
+                    // Si ce sont des balises HTML complètes <script...>, on les injecte directement
+                    schemaContainer.innerHTML = customSchema;
+                } else {
+                    // Si c'est du JSON pur
+                    const scriptTag = document.createElement('script');
+                    scriptTag.type = 'application/ld+json';
+                    scriptTag.textContent = customSchema;
+                    schemaContainer.appendChild(scriptTag);
+                }
+            } else if (customSchema && typeof customSchema === 'object') {
+                const scriptTag = document.createElement('script');
+                scriptTag.type = 'application/ld+json';
+                scriptTag.textContent = JSON.stringify(customSchema, null, 2);
+                schemaContainer.appendChild(scriptTag);
+            } else {
+                // Schéma par défaut
+                const defaultSchema = {
+                    "@context": "https://schema.org",
+                    "@type": "MusicAlbum",
+                    "name": title,
+                    "url": window.location.href,
+                    "image": shareImage,
+                    "description": shareDesc,
+                    "byArtist": {
+                        "@type": "MusicGroup",
+                        "name": artistName
+                    }
+                };
+                const scriptTag = document.createElement('script');
+                scriptTag.type = 'application/ld+json';
+                scriptTag.textContent = JSON.stringify(defaultSchema, null, 2);
+                schemaContainer.appendChild(scriptTag);
+            }
 
             const appleUrl = data.appleUrl || data.apple_url || data.releaseUrl || "";
             const spotifyUrl = data.spotifyUrl || data.spotify_url || "";
@@ -682,7 +724,7 @@
 
             headerContainer.innerHTML = `
                 <div class="banner-wrapper" id="bannerWrapper">
-                    ${coverUrl ? `<img src="${coverUrl}" crossorigin="anonymous" alt="${title}" class="banner-img" id="releaseCoverImg">` : `<div style="width:100%; height:100%; background:#222;"></div>`}
+                    ${coverUrl ? `<img src="${coverUrl}" alt="${title}" class="banner-img" id="releaseCoverImg">` : `<div style="width:100%; height:100%; background:#222;"></div>`}
                     ${animatedCoverUrl ? `<video src="${animatedCoverUrl}" autoplay loop muted playsinline preload="metadata" class="banner-video"></video>` : ''}
                 </div>
                 <div class="banner-overlay">
