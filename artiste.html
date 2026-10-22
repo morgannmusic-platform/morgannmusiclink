@@ -5,28 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artiste - Morgann Music CP</title>
-
-    <!-- Balises Open Graph / Réseaux sociaux (mises à jour dynamiquement) -->
-    <meta property="OG:TITLE" id="metaOgTitle" content="Artiste - Morgann Music CP">
-    <meta property="OG:DESCRIPTION" id="metaOgDesc"
-        content="Découvrez le profil, les liens et les dernières sorties de l'artiste sur Morgann Music CP.">
-    <meta property="OG:IMAGE" id="metaOgImage" content="https://mm-cp.uk/assets/img/icons/sombre.png">
-    <meta property="OG:TYPE" content="website">
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-    <!-- Twitter Card -->
+    <!-- Balises Open Graph / Twitter Card (mise à jour dynamique) -->
+    <meta property="og:title" id="metaOgTitle" content="Artiste - Morgann Music CP">
+    <meta property="og:description" id="metaOgDesc" content="Découvrez le profil de l'artiste.">
+    <meta property="og:image" id="metaOgImage" content="https://mm-cp.uk/assets/img/icons/sombre.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="metaTwitterTitle" content="Artiste - Morgann Music CP">
-    <meta name="twitter:description" id="metaTwitterDesc"
-        content="Découvrez le profil, les liens et les dernières sorties de l'artiste sur Morgann Music CP.">
+    <meta name="twitter:description" id="metaTwitterDesc" content="Découvrez le profil de l'artiste.">
     <meta name="twitter:image" id="metaTwitterImage" content="https://mm-cp.uk/assets/img/icons/sombre.png">
 
-    <!-- Schéma.org JSON-LD dynamique injecté depuis la colonne schema_json de la table artists -->
+    <!-- Emplacement pour l'injection du Schema JSON-LD -->
     <script type="application/ld+json" id="schemaOrgData"></script>
 
-    <!-- Bibliothèque Color Thief -->
+    <link rel="stylesheet" href="/assets/css/navbar.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
     <style>
         * {
@@ -37,7 +28,7 @@
         }
 
         body {
-            background-color: #fce4ec;
+            background: var(--dynamic-bg, #fce4ec);
             color: #121212;
             min-height: 100vh;
             display: flex;
@@ -45,6 +36,7 @@
             align-items: center;
             transition: background 0.6s ease;
             overflow-x: hidden;
+            padding-top: 70px;
         }
 
         .page-wrapper {
@@ -53,7 +45,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
         }
 
         .header-section {
@@ -477,6 +468,8 @@
 </head>
 
 <body>
+    <div id="navbar-container"></div>
+    <script src="/assets/js/navbar.js"></script>
 
     <div class="page-wrapper">
         <div id="headerSectionContainer" style="width: 100%;"></div>
@@ -566,7 +559,6 @@
                 }
 
                 renderArtist(artist, releases);
-
             } catch (err) {
                 console.error("Erreur de chargement de la page artiste :", err);
                 document.querySelector('.page-wrapper').innerHTML = '<div style="padding: 50px; text-align: center; color: #121212;">Erreur lors du chargement des données.</div>';
@@ -582,28 +574,50 @@
 
             // --- MISE À JOUR DYNAMIQUE DES MÉTADONNÉES DE PARTAGE (Open Graph / Twitter) ---
             document.title = `${name} - Morgann Music CP`;
-
             const shareDesc = artist.description ? artist.description.substring(0, 150) + '...' : `Découvrez le profil et les musiques de ${name} sur Morgann Music CP.`;
             const shareImage = photoUrl || bannerUrl || 'https://mm-cp.uk/assets/img/icons/sombre.png';
 
-            document.getElementById('metaOgTitle').setAttribute('content', `${name} - Morgann Music CP`);
-            document.getElementById('metaOgDesc').setAttribute('content', shareDesc);
-            document.getElementById('metaOgImage').setAttribute('content', shareImage);
+            const metaOgTitle = document.getElementById('metaOgTitle');
+            if (metaOgTitle) metaOgTitle.setAttribute('content', `${name} - Morgann Music CP`);
+            const metaOgDesc = document.getElementById('metaOgDesc');
+            if (metaOgDesc) metaOgDesc.setAttribute('content', shareDesc);
+            const metaOgImage = document.getElementById('metaOgImage');
+            if (metaOgImage) metaOgImage.setAttribute('content', shareImage);
 
-            document.getElementById('metaTwitterTitle').setAttribute('content', `${name} - Morgann Music CP`);
-            document.getElementById('metaTwitterDesc').setAttribute('content', shareDesc);
-            document.getElementById('metaTwitterImage').setAttribute('content', shareImage);
+            const metaTwitterTitle = document.getElementById('metaTwitterTitle');
+            if (metaTwitterTitle) metaTwitterTitle.setAttribute('content', `${name} - Morgann Music CP`);
+            const metaTwitterDesc = document.getElementById('metaTwitterDesc');
+            if (metaTwitterDesc) metaTwitterDesc.setAttribute('content', shareDesc);
+            const metaTwitterImage = document.getElementById('metaTwitterImage');
+            if (metaTwitterImage) metaTwitterImage.setAttribute('content', shareImage);
 
-            // Injection dynamique du Schema JSON-LD depuis la colonne schema_json BDD
+            // Injection dynamique du Schema JSON-LD
             const schemaTag = document.getElementById('schemaOrgData');
-            const customSchema = artist.schema_json || artist.schemaJson;
-
-            if (customSchema) {
-                try {
-                    const schemaObj = typeof customSchema === 'string' ? JSON.parse(customSchema) : customSchema;
-                    schemaTag.textContent = JSON.stringify(schemaObj, null, 2);
-                } catch (e) {
-                    console.warn("Erreur parsing schema_json artiste, repli sur le schéma par défaut :", e);
+            if (schemaTag) {
+                const customSchema = artist.schema_json || artist.schemaJson;
+                if (customSchema) {
+                    let cleanSchema = customSchema;
+                    if (typeof cleanSchema === 'string') {
+                        cleanSchema = cleanSchema.replace(/<\/?script[^>]*>/g, '').trim();
+                        try {
+                            const schemaObj = JSON.parse(cleanSchema);
+                            schemaTag.textContent = JSON.stringify(schemaObj, null, 2);
+                        } catch (e) {
+                            console.warn("Erreur parsing schema_json artiste, repli sur le schéma par défaut :", e);
+                            const defaultSchema = {
+                                "@context": "https://schema.org",
+                                "@type": "MusicGroup",
+                                "name": name,
+                                "url": window.location.href,
+                                "image": shareImage,
+                                "description": shareDesc
+                            };
+                            schemaTag.textContent = JSON.stringify(defaultSchema, null, 2);
+                        }
+                    } else if (typeof cleanSchema === 'object') {
+                        schemaTag.textContent = JSON.stringify(cleanSchema, null, 2);
+                    }
+                } else {
                     const defaultSchema = {
                         "@context": "https://schema.org",
                         "@type": "MusicGroup",
@@ -614,37 +628,14 @@
                     };
                     schemaTag.textContent = JSON.stringify(defaultSchema, null, 2);
                 }
-            } else {
-                const defaultSchema = {
-                    "@context": "https://schema.org",
-                    "@type": "MusicGroup",
-                    "name": name,
-                    "url": window.location.href,
-                    "image": shareImage,
-                    "description": shareDesc
-                };
-                schemaTag.textContent = JSON.stringify(defaultSchema, null, 2);
             }
 
-            let cleanSchema = customSchema;
-            if (typeof cleanSchema === 'string') {
-                // Supprimer les balises <script> si elles sont présentes par erreur
-                cleanSchema = cleanSchema.replace(/<\/?script[^>]*>/g, '').trim();
-                try {
-                    const schemaObj = JSON.parse(cleanSchema);
-                    schemaTag.textContent = JSON.stringify(schemaObj, null, 2);
-                } catch (e) {
-                    // Gestion du repli...
-                }
-            }
-            // -----------------------------------------------------------------------------
-
+            // --- INJECTION DU HEADER ---
             const useBanner = Boolean(bannerUrl);
             const isMobile = window.innerWidth <= 768;
 
             if (useBanner) {
                 const proxyBannerUrl = resolveImageUrl(bannerUrl);
-
                 headerContainer.innerHTML = `
                     <div class="banner-wrapper" id="headerWrapper">
                         <img src="${proxyBannerUrl}" alt="${name}" class="banner-img" id="headerImg">
@@ -655,7 +646,6 @@
                         </div>
                     </div>
                 `;
-
                 setupColorThief(proxyBannerUrl);
                 initParallaxEffect();
             } else {
@@ -663,7 +653,6 @@
                 const finalPhotoUrl = photoUrl || defaultPhoto;
 
                 if (isMobile) {
-                    // Téléphone sans bannière : PDP avec fondu plein écran
                     headerContainer.innerHTML = `
                         <div class="mobile-pdp-banner">
                             <img src="${finalPhotoUrl}" alt="${name}" class="mobile-pdp-img" onerror="this.src='${defaultPhoto}'">
@@ -675,7 +664,6 @@
                         </div>
                     `;
                 } else {
-                    // Ordinateur sans bannière : PDP en rond au centre
                     headerContainer.innerHTML = `
                         <div class="profile-hero-section">
                             <div class="profile-avatar-wrapper">
@@ -687,19 +675,21 @@
                         </div>
                     `;
                 }
-
                 setupColorThief(finalPhotoUrl);
             }
 
+            // --- CARTE INFOS & GENRES ---
             const primaryGenre = artist.primaryGenre || artist.genre || "";
             const secondaryGenre = artist.secondaryGenre || "";
             const description = artist.description || "";
+
             const genresList = document.getElementById('artistGenresList');
             const bioElement = document.getElementById('artistBio');
             const infoCard = document.getElementById('artistInfoCard');
-            let hasInfo = false;
 
+            let hasInfo = false;
             let genresHtml = '';
+
             if (primaryGenre) {
                 genresHtml += `<span class="genre-tag">${primaryGenre}</span>`;
                 hasInfo = true;
@@ -708,22 +698,20 @@
                 genresHtml += `<span class="genre-tag">${secondaryGenre}</span>`;
                 hasInfo = true;
             }
-
             if (genresHtml) {
                 genresList.innerHTML = genresHtml;
                 genresList.classList.remove('hidden');
             }
-
             if (description) {
                 bioElement.innerText = description;
                 bioElement.classList.remove('hidden');
                 hasInfo = true;
             }
-
             if (hasInfo) {
                 infoCard.classList.remove('hidden');
             }
 
+            // --- PLATEFORMES PRINCIPALES ---
             const mainGrid = document.getElementById('mainLinksGrid');
             const mainLinks = [];
 
@@ -738,21 +726,18 @@
                     Apple Music
                 </a>`);
             }
-
             if (spotifyUrl) {
                 mainLinks.push(`<a href="${spotifyUrl.startsWith('http') ? spotifyUrl : 'https://open.spotify.com/artist/' + spotifyUrl}" target="_blank" class="platform-btn">
                     <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.521 17.34c-.24.359-.72.48-1.081.24-2.999-1.8-6.78-2.221-11.22-1.2-.42.12-.84-.18-.96-.6-.12-.42.18-.84.6-.96 4.8-1.08 9.06-.6 12.48 1.56.36.24.48.72.18 1.08zm1.56-3.48c-.3.48-.9.6-1.38.3-3.42-2.1-8.64-2.7-12.66-1.44-.54.18-1.14-.12-1.32-.66-.18-.54.12-1.14.66-1.32 4.44-1.38 10.2-1.74 14.28.66.48.3.6.9.3 1.44zm.12-3.66C14.4 7.92 8.34 7.74 4.86 8.82c-.66.18-1.38-.18-1.56-.84-.18-.66.18-1.38.84-1.56 4.14-1.26 10.92-1.02 15.36 1.62.6.36.78 1.14.42 1.74-.36.6-1.14.78-1.74.42z"/></svg>
                     Spotify
                 </a>`);
             }
-
             if (instaUrl) {
                 mainLinks.push(`<a href="${instaUrl.startsWith('http') ? instaUrl : 'https://instagram.com/' + instaUrl}" target="_blank" class="platform-btn">
                     <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                     Instagram
                 </a>`);
             }
-
             if (ytUrl) {
                 mainLinks.push(`<a href="${ytUrl.startsWith('http') ? ytUrl : 'https://youtube.com/' + ytUrl}" target="_blank" class="platform-btn">
                     <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
@@ -766,6 +751,7 @@
                 mainGrid.classList.add('hidden');
             }
 
+            // --- DERNIÈRE SORTIE ---
             const artistReleases = allReleases.filter(r =>
                 (r.artistName && r.artistName.toLowerCase() === name.toLowerCase()) ||
                 (r.artist_name && r.artist_name.toLowerCase() === name.toLowerCase())
@@ -777,12 +763,12 @@
                 document.getElementById('latestCover').src = resolveImageUrl(coverRaw);
                 document.getElementById('latestTitle').innerText = latest.title || "Titre récent";
                 document.getElementById('latestArtist').innerText = latest.artistName || latest.artist_name || name;
-
                 const releaseId = latest.id || latest._id || '';
                 document.getElementById('latestReleaseCard').href = `sortie.html?id=${releaseId}`;
                 document.getElementById('latestReleaseCard').classList.remove('hidden');
             }
 
+            // --- AUTRES LIENS & RÉSEAUX ---
             const otherLinksList = document.getElementById('otherLinksList');
             const otherLinks = [];
 
@@ -807,13 +793,10 @@
         function setupColorThief(imageUrl) {
             const thiefImg = new Image();
             thiefImg.crossOrigin = "anonymous";
-
-            // Si l'image provient d'un domaine externe sans CORS, on la passe par le proxy pour éviter le blocage
             let finalThiefUrl = imageUrl;
             if (imageUrl.includes('stock.mm-cp.uk') && !imageUrl.includes(API_BASE)) {
                 finalThiefUrl = `${API_BASE}/api/proxy-download?url=${encodeURIComponent(imageUrl)}`;
             }
-
             thiefImg.src = finalThiefUrl;
             thiefImg.onload = function () {
                 try {
@@ -832,7 +815,6 @@
             };
         }
 
-
         function initParallaxEffect() {
             window.addEventListener('scroll', () => {
                 const scrollY = window.scrollY;
@@ -844,7 +826,6 @@
                     const blurAmount = Math.min(15, scrollY * 0.04);
                     headerImg.style.filter = `brightness(${Math.max(0.6, 0.95 - scrollY * 0.001)}) blur(${blurAmount}px)`;
                 }
-
                 if (titleContainer && headerWrapper) {
                     const maxHeaderHeight = headerWrapper.offsetHeight;
                     const maxTranslate = maxHeaderHeight * 0.35;
