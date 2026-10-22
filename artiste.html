@@ -768,15 +768,22 @@
                 document.getElementById('latestReleaseCard').classList.remove('hidden');
             }
 
-            // --- AUTRES LIENS & RÉSEAUX ---
+            // --- AUTRES LIENS & RÉSEAUX (Inclus TikTok, Threads, et tous les autres liens) ---
             const otherLinksList = document.getElementById('otherLinksList');
             const otherLinks = [];
 
+            const tiktokUrl = artist.tiktokUrl || artist.tiktok_url || artist.linkTiktok;
+            const threadsUrl = artist.threadsUrl || artist.threads_url || artist.linkThreads;
+
+            if (tiktokUrl) otherLinks.push({ name: 'TikTok', url: tiktokUrl.startsWith('http') ? tiktokUrl : 'https://tiktok.com/@' + tiktokUrl });
+            if (threadsUrl) otherLinks.push({ name: 'Threads', url: threadsUrl.startsWith('http') ? threadsUrl : 'https://threads.net/@' + threadsUrl });
             if (artist.linkAmazon || artist.amazon_url) otherLinks.push({ name: 'Amazon Music', url: artist.linkAmazon || artist.amazon_url });
             if (artist.linkSoundcloud || artist.soundcloud_url) otherLinks.push({ name: 'SoundCloud', url: artist.linkSoundcloud || artist.soundcloud_url });
             if (artist.linkWebsite || artist.website_url) otherLinks.push({ name: 'Site officiel', url: artist.linkWebsite || artist.website_url });
             if (artist.linkFb || artist.facebookUrl || artist.facebook_url) otherLinks.push({ name: 'Facebook', url: artist.linkFb || artist.facebookUrl || artist.facebook_url });
+            if (artist.linkYtMusic) otherLinks.push({ name: 'YouTube Music', url: artist.linkYtMusic });
             if (artist.linkX || artist.twitter_url) otherLinks.push({ name: 'X (Twitter)', url: artist.linkX || artist.twitter_url });
+            if (artist.linkYtSocial) otherLinks.push({ name: 'YouTube (Social)', url: artist.linkYtSocial });
             if (artist.linkWiki || artist.wikipedia_url) otherLinks.push({ name: 'Wikipédia', url: artist.linkWiki || artist.wikipedia_url });
 
             if (otherLinks.length > 0) {

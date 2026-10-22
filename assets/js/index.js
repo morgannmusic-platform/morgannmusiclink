@@ -30,7 +30,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         // 1. Filtrer uniquement les sorties qui ont le statut "direct"
         const directReleases = allReleases.filter(r => (r.status || "").toLowerCase() === "direct");
 
-        // 2. Les 5 dernières sorties (parmi celles qui sont "direct")
+        // 2. Trier les sorties par date (du plus récent au plus ancien) en se basant sur release_date, original_release_date ou created_at
+        directReleases.sort((a, b) => {
+            const dateA = new Date(a.release_date || a.releaseDate || a.original_release_date || a.originalReleaseDate || a.created_at || a.createdAt || 0);
+            const dateB = new Date(b.release_date || b.releaseDate || b.original_release_date || b.originalReleaseDate || b.created_at || b.createdAt || 0);
+            return dateB - dateA;
+        });
+
+        // 3. Les 5 dernières sorties triées
         const dernieresSorties = directReleases.slice(0, 5);
         sortiesContainer.innerHTML = "";
 
@@ -38,8 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             sortiesContainer.innerHTML = "<p>Aucune sortie disponible.</p>";
         } else {
             dernieresSorties.forEach(release => {
-                // On remplace le lien externe par sortie.html?id=
-                const releaseId = release.id || release._id; // Adapte selon le nom de la clé de l'ID dans ton API
+                const releaseId = release.id || release._id;
                 const link = `sortie.html?id=${releaseId}`;
                 const cover = fixImgUrl(release.cover_url || release.coverUrl);
 
@@ -52,10 +58,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
         }
 
-        // 3. Compter les sorties "direct" par artiste pour le top 5
+        // 4. Compter les sorties "direct" par artiste pour le top 5
         const stats = {};
         directReleases.forEach(r => {
-            const name = r.artistName;
+            const name = r.artistName || r.artist_name;
             if (name) stats[name] = (stats[name] || 0) + 1;
         });
 
@@ -72,7 +78,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             artistesContainer.innerHTML = "<p>Aucun artiste disponible.</p>";
         } else {
             topArtistes.forEach(artiste => {
-                // Redirection vers artiste.html?name= avec encodage de l'URL
                 const link = `artiste.html?name=${encodeURIComponent(artiste.name)}`;
                 const photo = fixImgUrl(artiste.photo || artiste.logo_url || artiste.logoUrl);
 
