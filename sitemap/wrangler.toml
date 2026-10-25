@@ -1,0 +1,13 @@
+name = "morgann-music-links-worker"
+main = "src/index.js"
+compatibility_date = "2024-03-20"
+
+routes = [
+  { pattern = "link.morgannmusic.uk", custom_domain = true },
+  { pattern = "play.morgannmusic.uk", custom_domain = true }
+]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ma-super-base"
+database_id = "e21ef4d8-7e6a-436f-8cf4-eca72daf322f"
