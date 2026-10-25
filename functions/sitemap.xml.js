@@ -5,17 +5,24 @@ export async function onRequest(context) {
     const baseUrl = `https://${hostname}`;
 
     try {
-        // Récupération des sorties et des artistes en parallèle depuis la base D1
-        const releasesPromise = env.DB.prepare(
-            "SELECT id, updated_at, created_at FROM releases ORDER BY created_at DESC"
+        // 1. Récupération des sorties avec le statut 'direct' ou 'livrée'
+        const releasesRes = await env.DB.prepare(
+            `SELECT id, updated_at, created_at 
+       FROM releases 
+       WHERE LOWER(status) IN ('direct', 'livrée', 'livree') 
+       ORDER BY created_at DESC`
         ).all();
-
-        const artistsPromise = env.DB.prepare(
-            "SELECT id, created_at FROM artists ORDER BY created_at DESC"
-        ).all();
-
-        const [releasesRes, artistsRes] = await Promise.all([releasesPromise, artistsPromise]);
         const releases = releasesRes.results || [];
+
+        // 2. Récupération des artistes qui ont au moins une sortie 'direct' ou 'livrée'
+        // On fait une jointure ou une recherche sur les artistes liés à ces sorties
+        const artistsRes = await env.DB.prepare(
+            `SELECT DISTINCT a.id, a.created_at 
+       FROM artists a
+       JOIN releases r ON (r.user_uid = a.user_uid OR LOWER(r.artist_name) = LOWER(a.name))
+       WHERE LOWER(r.status) IN ('direct', 'livrée', 'livree')
+       ORDER BY a.created_at DESC`
+        ).all();
         const artists = artistsRes.results || [];
 
         let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
@@ -28,7 +35,7 @@ export async function onRequest(context) {
         xml += `    <priority>1.0</priority>\n`;
         xml += `  </url>\n`;
 
-        // Boucle sur les sorties (/sortie?id=...)
+        // Boucle sur les sorties filtrées (/sortie?id=...)
         for (const row of releases) {
             let lastmod = row.updated_at || row.created_at || new Date().toISOString();
             if (lastmod.includes("T")) {
@@ -43,7 +50,7 @@ export async function onRequest(context) {
             xml += `  </url>\n`;
         }
 
-        // Boucle sur les artistes (/artiste?id=...)
+        // Boucle sur les artistes valides (/artiste?id=...)
         for (const row of artists) {
             let lastmod = row.created_at || new Date().toISOString();
             if (lastmod.includes("T")) {
