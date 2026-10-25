@@ -445,23 +445,43 @@
                 schemaContainer.appendChild(scriptTag);
             }
 
-            const appleUrl = data.appleUrl || data.apple_url || "";
-            const spotifyUrl = data.spotifyUrl || data.spotify_url || "";
-            const releaseUrl = data.releaseUrl || data.release_url || "";
-
             const animatedCoverRaw = data.animatedCoverUrl || data.animatedCover || data.appleMotion11;
             const animatedCoverUrl = resolveFileUrl(animatedCoverRaw);
 
+            // Liste exhaustive de toutes les plateformes supportées
+            const platformsConfig = [
+                { key: 'spotifyUrl', altKey: 'spotify_url', label: 'Spotify' },
+                { key: 'appleUrl', altKey: 'apple_url', label: 'Apple Music' },
+                { key: 'deezerUrl', altKey: 'deezer_url', label: 'Deezer' },
+                { key: 'amazonUrl', altKey: 'amazon_url', label: 'Amazon Music' },
+                { key: 'youtubeMusicUrl', altKey: 'youtube_music_url', label: 'YouTube Music' },
+                { key: 'tidalUrl', altKey: 'tidal_url', label: 'Tidal' },
+                { key: 'qobuzUrl', altKey: 'qobuz_url', label: 'Qobuz' },
+                { key: 'soundcloudUrl', altKey: 'soundcloud_url', label: 'SoundCloud' },
+                { key: 'bandcampUrl', altKey: 'bandcamp_url', label: 'Bandcamp' },
+                { key: 'napsterUrl', altKey: 'napster_url', label: 'Napster' },
+                { key: 'pandoraUrl', altKey: 'pandora_url', label: 'Pandora' },
+                { key: 'beatportUrl', altKey: 'beatport_url', label: 'Beatport' },
+                { key: 'traxsourceUrl', altKey: 'traxsource_url', label: 'Traxsource' },
+                { key: 'tiktokUrl', altKey: 'tiktok_url', label: 'TikTok' },
+                { key: 'instagramUrl', altKey: 'instagram_url', label: 'Instagram' },
+                { key: 'shazamUrl', altKey: 'shazam_url', label: 'Shazam' },
+                { key: 'tencentUrl', altKey: 'tencent_url', label: 'Tencent' },
+                { key: 'neteaseUrl', altKey: 'netease_url', label: 'NetEase' },
+                { key: 'boomplayUrl', altKey: 'boomplay_url', label: 'Boomplay' },
+                { key: 'anghamiUrl', altKey: 'anghami_url', label: 'Anghami' },
+                { key: 'vkUrl', altKey: 'vk_url', label: 'VKontakte' },
+                { key: 'yandexUrl', altKey: 'yandex_url', label: 'Yandex' },
+                { key: 'releaseUrl', altKey: 'release_url', label: 'Lien de sortie' }
+            ];
+
             let platformsHtml = '';
-            if (appleUrl) {
-                platformsHtml += `<a href="${appleUrl}" target="_blank" rel="noopener noreferrer" class="platform-link-btn">Apple Music</a>`;
-            }
-            if (spotifyUrl) {
-                platformsHtml += `<a href="${spotifyUrl}" target="_blank" rel="noopener noreferrer" class="platform-link-btn">Spotify</a>`;
-            }
-            if (releaseUrl) {
-                platformsHtml += `<a href="${releaseUrl}" target="_blank" rel="noopener noreferrer" class="platform-link-btn">Lien de sortie</a>`;
-            }
+            platformsConfig.forEach(p => {
+                const urlVal = data[p.key] || data[p.altKey] || "";
+                if (urlVal && String(urlVal).trim() !== "") {
+                    platformsHtml += `<a href="${urlVal}" target="_blank" rel="noopener noreferrer" class="platform-link-btn">${p.label}</a>`;
+                }
+            });
 
             headerContainer.innerHTML = `
                 <div class="banner-wrapper" id="bannerWrapper">
